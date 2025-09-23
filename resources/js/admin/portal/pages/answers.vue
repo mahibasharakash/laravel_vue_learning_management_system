@@ -1,7 +1,7 @@
 <template>
 
     <!-- breadcrumb -->
-    <div class="w-full bg-white rounded-md px-6 py-3 flex justify-start gap-3">
+    <div class="w-full bg-white rounded-md px-6 py-3 flex justify-start gap-3 shadow-lg">
         <a href="javascript:void(0)" class="decoration-0 text-black inline-block font-medium text-md">
             Answer
         </a>
@@ -18,7 +18,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                 </svg>
             </div>
-            <input type="search" name="search" class="font-medium text-sm w-full block min-h-[48px] max-h-[48px] rounded-md bg-white outline-0 border-0 px-5 placeholder-black text-black ring-0 focus-within:ring-2 ring-blue-500 duration-500" placeholder="Search Here" required autocomplete="off" />
+            <input type="search" name="search" class="font-medium text-sm w-full block min-h-[48px] max-h-[48px] rounded-md bg-white outline-0 border-0 px-5 placeholder-black text-black ring-0 focus-within:ring-2 ring-blue-500 duration-500 shadow-lg" placeholder="Search Here" required autocomplete="off" />
         </div>
         <!-- / search -->
 
@@ -40,7 +40,7 @@
     <!-- / body -->
 
     <!-- pagination & count -->
-    <div class="w-full mt-3">
+    <div class="w-full mt-5">
         <div class="w-full flex justify-between items-center flex-wrap">
 
             <!-- pagination -->
@@ -97,7 +97,7 @@
                     <div class="text-xl font-semibold">
                         <template v-if="formData.id"> Edit </template>
                         <template v-else> Create </template>
-                        Category
+                        Answer
                     </div>
                     <button type="button" class="min-w-[45px] max-w-[45px] min-h-[45px] max-h-[45px] bg-transparent duration-500 hover:bg-gray-200 rounded-full inline-flex justify-center items-center cursor-pointer" @click="closeManageModal()">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -110,27 +110,67 @@
                 <!-- body -->
                 <div class="w-full block">
 
+                    <!-- question -->
+                    <div class="mb-3 w-full block">
+                        <label for="question_id" class="form-label"> Question </label>
+                        <div class="w-full relative">
+                            <select name="question_id" id="question_id" v-model="formData.question_id" class="form-select" autocomplete="off">
+                                <option :value="null"> Select Question </option>
+                            </select>
+                            <div class="absolute top-0 bottom-0 end-0 pe-3 flex items-center pointer-events-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="mt-2 w-full block text-red-500 text-xs font-medium" v-if="error?.question_id"> {{error?.question_id[0]}} </div>
+                    </div>
+                    <!-- / question -->
+
                     <!-- title -->
                     <div class="mb-3 w-full block">
-                        <label for="title" class="mb-2 w-full block text-sm font-medium"> Title </label>
-                        <input id="title" type="text" name="title" v-model="formData.title" class="text-xs font-medium w-full border border-gray-100 bg-gray-100 block min-h-[45px] max-h-[45px] rounded-md outline-0 ring-0 focus-within:ring-3 ring-blue-400 duration-500 px-4 shadow-inner" autocomplete="off" />
+                        <label for="title" class="form-label"> Title </label>
+                        <input id="title" type="text" name="title" v-model="formData.title" class="form-control" autocomplete="off" />
                         <div class="mt-2 w-full block text-red-500 text-xs font-medium" v-if="error?.title"> {{error?.title[0]}} </div>
                     </div>
                     <!-- / title -->
+
+                    <!-- is correct -->
+                    <div class="mb-3 w-full block">
+                        <label for="is_correct_yes_or_no" class="form-label"> Select Correct or Not </label>
+                        <div class="w-full flex items-center min-h-[45px] max-h-[45px]">
+                            <div class="w-1/2">
+                                <label for="is_correct_yes" class="flex justify-start items-center cursor-pointer">
+                                    <input type="radio" name="is_correct" id="is_correct_yes" value="yes" class="hidden peer" :checked="formData.is_correct === 1" @change="correctType(1)" />
+                                    <span class="min-w-[25px] min-h-[25px] max-w-[25px] max-h-[25px] duration-500 border-4 border-gray-300 peer-checked:border-blue-200 bg-gray-500 peer-checked:bg-blue-500 rounded-full flex justify-center items-center"></span>
+                                    <span class="ms-2 font-medium"> Yes </span>
+                                </label>
+                            </div>
+                            <div class="w-1/2">
+                                <label for="is_correct_no" class="flex justify-start items-center cursor-pointer">
+                                    <input type="radio" name="is_correct" id="is_correct_no" value="no" class="hidden peer" :checked="formData.is_correct === 0" @change="correctType(0)" />
+                                    <span class="min-w-[25px] min-h-[25px] max-w-[25px] max-h-[25px] duration-500 border-4 border-gray-300 peer-checked:border-blue-200 bg-gray-500 peer-checked:bg-blue-500 rounded-full flex justify-center items-center"></span>
+                                    <span class="ms-2 font-medium"> No </span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="mt-2 w-full block text-red-500 text-xs font-medium" v-if="error?.title"> {{error?.title[0]}} </div>
+                    </div>
+                    <!-- / is correct -->
 
                 </div>
                 <!-- / body -->
 
                 <!-- footer -->
-                <div class="w-full flex justify-end items-center gap-5">
-                    <button type="button" class="min-w-[90px] max-w-[90px] font-medium cursor-pointer bg-gray-200 duration-500 hover:bg-gray-300 px-8 text-xs rounded-md min-h-[45px] max-h-[45px] inline-flex justify-center items-center" @click="closeManageModal()">
+                <div class="w-full flex justify-end items-center gap-2">
+                    <button type="button" class="btn-lighter" @click="closeManageModal()">
                         Cancel
                     </button>
-                    <button type="submit" class="min-w-[90px] max-w-[90px] font-medium cursor-pointer bg-blue-500 duration-500 hover:bg-blue-700 text-white px-8 text-xs rounded-md min-h-[45px] max-h-[45px] inline-flex justify-center items-center" v-if="!manageLoading">
+                    <button type="submit" class="btn-theme" v-if="!manageLoading">
                         <template v-if="formData.id"> Update </template>
                         <template v-else> Create </template>
                     </button>
-                    <button type="button" class="min-w-[90px] max-w-[90px] font-medium cursor-pointer bg-blue-500 duration-500 hover:bg-blue-700 text-white px-8 text-xs rounded-md min-h-[45px] max-h-[45px] inline-flex justify-center items-center" v-if="manageLoading">
+                    <button type="button" class="btn-theme" v-if="manageLoading">
                         <span class="inline-block rounded-full w-4 h-4 border-2 border-white border-t-transparent animate-spin"></span>
                     </button>
                 </div>
@@ -200,10 +240,14 @@ export default {
             // data properties
             isActiveManageModal: false,
             isActiveDeleteModal: false,
+            manageLoading: false,
+            deleteLoading: false,
+            error: {},
             formData: {
-                question_id: '', // FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE
+                id: '',
+                question_id: null, // FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE
                 answer: '',
-                is_correct: '',
+                is_correct: 1,
                 created_at: '',
                 updated_at: '',
             },
@@ -213,6 +257,11 @@ export default {
 
     },
     methods: {
+
+        // correct type
+        correctType(type) {
+            this.formData.is_correct = type;
+        },
 
         // open manage modal
         openManageModal() {

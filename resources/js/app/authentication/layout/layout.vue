@@ -1,7 +1,10 @@
 <template>
 
+    <!-- authentication portal -->
     <section class="mx-auto max-w-7xl px-5 py-16">
         <div class="w-full max-w-[420px] sm:min-w-[420px] mx-auto p-10 bg-white/55 backdrop-blur-xs shadow-xl rounded-lg border border-gray-200">
+
+            <!-- logo -->
             <div class="mb-3 flex justify-center">
                 <RouterLink :to="{name:'login'}">
                     <svg fill="#000000" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" class="max-w-[65px] min-w-[65px] h-auto">
@@ -14,9 +17,16 @@
                     </svg>
                 </RouterLink>
             </div>
+            <!-- / logo -->
+
+            <!-- main -->
             <RouterView></RouterView>
+            <!-- / main -->
+
         </div>
     </section>
+    <!-- / authentication portal -->
+
 </template>
 
 <script>

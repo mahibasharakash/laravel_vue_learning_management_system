@@ -1,7 +1,7 @@
 <template>
 
     <!-- breadcrumb -->
-    <div class="w-full bg-white rounded-md px-6 py-3 flex justify-start gap-3">
+    <div class="w-full bg-white rounded-md px-6 py-3 flex justify-start gap-3 shadow-lg">
         <a href="javascript:void(0)" class="decoration-0 text-black inline-block font-medium text-md">
             Questions
         </a>
@@ -18,7 +18,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                 </svg>
             </div>
-            <input type="search" name="search" class="font-medium text-sm w-full block min-h-[48px] max-h-[48px] rounded-md bg-white outline-0 border-0 px-5 placeholder-black text-black ring-0 focus-within:ring-2 ring-blue-500 duration-500" placeholder="Search Here" required autocomplete="off" />
+            <input type="search" name="search" class="font-medium text-sm w-full block min-h-[48px] max-h-[48px] rounded-md bg-white outline-0 border-0 px-5 placeholder-black text-black ring-0 focus-within:ring-2 ring-blue-500 duration-500 shadow-lg" placeholder="Search Here" required autocomplete="off" />
         </div>
         <!-- / search -->
 
@@ -40,7 +40,7 @@
     <!-- / body -->
 
     <!-- pagination & count -->
-    <div class="w-full mt-3">
+    <div class="w-full mt-5">
         <div class="w-full flex justify-between items-center flex-wrap">
 
             <!-- pagination -->
@@ -97,7 +97,7 @@
                     <div class="text-xl font-semibold">
                         <template v-if="formData.id"> Edit </template>
                         <template v-else> Create </template>
-                        Category
+                        Question
                     </div>
                     <button type="button" class="min-w-[45px] max-w-[45px] min-h-[45px] max-h-[45px] bg-transparent duration-500 hover:bg-gray-200 rounded-full inline-flex justify-center items-center cursor-pointer" @click="closeManageModal()">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -110,27 +110,64 @@
                 <!-- body -->
                 <div class="w-full block">
 
-                    <!-- title -->
+                    <!-- quiz -->
                     <div class="mb-3 w-full block">
-                        <label for="title" class="mb-2 w-full block text-sm font-medium"> Title </label>
-                        <input id="title" type="text" name="title" v-model="formData.title" class="text-xs font-medium w-full border border-gray-100 bg-gray-100 block min-h-[45px] max-h-[45px] rounded-md outline-0 ring-0 focus-within:ring-3 ring-blue-400 duration-500 px-4 shadow-inner" autocomplete="off" />
+                        <label for="quiz_id" class="form-label"> Quiz </label>
+                        <div class="w-full relative">
+                            <select name="quiz_id" id="quiz_id" v-model="formData.quiz_id" class="form-select" autocomplete="off">
+                                <option :value="null"> Select Quiz </option>
+                            </select>
+                            <div class="absolute top-0 bottom-0 end-0 pe-3 flex items-center pointer-events-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="mt-2 w-full block text-red-500 text-xs font-medium" v-if="error?.quiz_id"> {{error?.quiz_id[0]}} </div>
+                    </div>
+                    <!-- / quiz_id -->
+
+                    <!-- question -->
+                    <div class="mb-3 w-full block">
+                        <label for="title" class="form-label"> Title </label>
+                        <input id="title" type="text" name="title" v-model="formData.title" class="form-control" autocomplete="off" />
                         <div class="mt-2 w-full block text-red-500 text-xs font-medium" v-if="error?.title"> {{error?.title[0]}} </div>
                     </div>
-                    <!-- / title -->
+                    <!-- / question -->
+
+                    <!-- type -->
+                    <div class="mb-3 w-full block">
+                        <label for="type" class="form-label"> Type </label>
+                        <div class="w-full relative">
+                            <select name="type" id="type" v-model="formData.type" class="form-control" autocomplete="off">
+                                <option :value="null"> Select type </option>
+                                <option :value="'mcq'"> MCQ </option>
+                                <option :value="'true_false'"> True Or False </option>
+                                <option :value="'short_answer'"> Short Answer </option>
+                            </select>
+                            <div class="absolute top-0 bottom-0 end-0 pe-3 flex items-center pointer-events-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="mt-2 w-full block text-red-500 text-xs font-medium" v-if="error?.type"> {{error?.type[0]}} </div>
+                    </div>
+                    <!-- / type -->
 
                 </div>
                 <!-- / body -->
 
                 <!-- footer -->
-                <div class="w-full flex justify-end items-center gap-5">
-                    <button type="button" class="min-w-[90px] max-w-[90px] font-medium cursor-pointer bg-gray-200 duration-500 hover:bg-gray-300 px-8 text-xs rounded-md min-h-[45px] max-h-[45px] inline-flex justify-center items-center" @click="closeManageModal()">
+                <div class="w-full flex justify-end items-center gap-2">
+                    <button type="button" class="btn-lighter" @click="closeManageModal()">
                         Cancel
                     </button>
-                    <button type="submit" class="min-w-[90px] max-w-[90px] font-medium cursor-pointer bg-blue-500 duration-500 hover:bg-blue-700 text-white px-8 text-xs rounded-md min-h-[45px] max-h-[45px] inline-flex justify-center items-center" v-if="!manageLoading">
+                    <button type="submit" class="btn-theme" v-if="!manageLoading">
                         <template v-if="formData.id"> Update </template>
                         <template v-else> Create </template>
                     </button>
-                    <button type="button" class="min-w-[90px] max-w-[90px] font-medium cursor-pointer bg-blue-500 duration-500 hover:bg-blue-700 text-white px-8 text-xs rounded-md min-h-[45px] max-h-[45px] inline-flex justify-center items-center" v-if="manageLoading">
+                    <button type="button" class="btn-theme" v-if="manageLoading">
                         <span class="inline-block rounded-full w-4 h-4 border-2 border-white border-t-transparent animate-spin"></span>
                     </button>
                 </div>
@@ -201,10 +238,14 @@ export default {
             // data properties
             isActiveManageModal: false,
             isActiveDeleteModal: false,
+            manageLoading: false,
+            deleteLoading: false,
+            error: {},
             formData: {
-                quiz_id: '', // FOREIGN KEY (quiz_id) REFERENCES quizzes(id) ON DELETE CASCADE
+                id: '',
+                quiz_id: null, // FOREIGN KEY (quiz_id) REFERENCES quizzes(id) ON DELETE CASCADE
                 question: '',
-                type: '', // mcq, true_false, short_answer
+                type: null, // mcq, true_false, short_answer
                 created_at: '',
                 updated_at: '',
             },

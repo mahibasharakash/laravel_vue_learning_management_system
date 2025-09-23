@@ -80,7 +80,7 @@
                             <input type="text" name="newsletter" placeholder="Enter your email" class="form-control" required autocomplete="off" />
                         </div>
                         <div class="w-full block">
-                            <button type="submit" class="form-btn">
+                            <button type="submit" class="btn-theme">
                                 Submit
                             </button>
                         </div>

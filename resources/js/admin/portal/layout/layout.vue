@@ -4,13 +4,13 @@
     <section class="flex items-start">
 
         <!-- sidebar -->
-        <aside class="min-w-[290px] bg-white fixed lg:static top-0 bottom-0 duration-500 shadow-lg lg:shadow-none" @click.stop :class="{ 'start-0' : isSidebarActive, '-start-[290px]' : !isSidebarActive }">
+        <aside class="min-w-[290px] bg-white fixed lg:static top-0 bottom-0 duration-500 shadow-lg lg:shadow-none z-50" @click.stop :class="{ 'start-0' : isSidebarActive, '-start-[290px]' : !isSidebarActive }">
 
             <!-- sidebar header -->
             <div class="min-h-[80px] w-full flex justify-center items-center text-xl px-5">
-                <a href="javascript:void(0)" class="decoration-0 text-black inline-block font-medium">
+                <RouterLink :to="{name:'dashboard'}" class="decoration-0 text-black inline-block font-medium">
                     Admin Panel
-                </a>
+                </RouterLink>
             </div>
             <!-- / sidebar header -->
 
@@ -240,7 +240,7 @@
             <!-- / header -->
 
             <!-- main -->
-            <main class="w-full p-5 block">
+            <main class="w-full p-5 block min-h-[calc(100vh-80px)] max-h-[calc(100vh-80px)] overflow-y-auto">
                 <RouterView></RouterView>
             </main>
             <!-- / main -->
