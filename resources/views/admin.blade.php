@@ -7,5 +7,5 @@
         <title> Learning Management System </title>
         @vite(['resources/js/admin/app.js','resources/css/app.css'])
     </head>
-    <body id="app"></body>
+    <body class="bg-gray-300" id="app"></body>
 </html>

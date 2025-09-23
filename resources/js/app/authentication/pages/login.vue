@@ -12,8 +12,8 @@
         <div class="mb-4 w-full block">
             <label for="remember-me" class="w-full flex justify-start items-center cursor-pointer">
                 <input type="checkbox" name="remember-me" id="remember-me" class="peer hidden" />
-                <span class="border border-gray-200 bg-gray-200 w-7 h-7 rounded-md inline-flex justify-center items-center peer-checked:border-blue-500 peer-checked:bg-blue-500 peer-checked:text-white [&>svg]:hidden peer-checked:[&>svg]:block">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-4 h-4">
+                <span class="border border-gray-200 bg-gray-200 w-5 h-5 rounded-md inline-flex justify-center items-center peer-checked:border-blue-500 peer-checked:bg-blue-500 peer-checked:text-white [&>svg]:hidden peer-checked:[&>svg]:block">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-2.5 h-2.5">
                       <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
                     </svg>
                 </span>

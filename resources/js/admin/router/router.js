@@ -8,6 +8,19 @@ import verification from "../authentication/pages/verification.vue";
 
 import portalLayout from "../portal/layout/layout.vue";
 import dashboard from "../portal/pages/dashboard.vue";
+import users from "../portal/pages/users.vue";
+import courses from "../portal/pages/courses.vue";
+import sections from "../portal/pages/sections.vue";
+import lessons from "../portal/pages/lessons.vue";
+import enrollments from "../portal/pages/enrollments.vue";
+import quizzes from "../portal/pages/quizzes.vue";
+import questions from "../portal/pages/questions.vue";
+import answers from "../portal/pages/answers.vue";
+import quizAttempts from "../portal/pages/quiz-attempts.vue";
+import payments from "../portal/pages/payments.vue";
+import comments from "../portal/pages/comments.vue";
+import settings from "../portal/pages/settings.vue";
+import profile from "../portal/pages/profile.vue";
 
 const routes = [
     { path: '/admin/auth', name: 'authLayout', component: authLayout,
@@ -22,6 +35,19 @@ const routes = [
         path: '/admin', name: 'portalLayout', component: portalLayout,
         children: [
             { path: '', name: 'dashboard', component: dashboard, meta: { title: 'Dashboard' } },
+            { path: 'users', name: 'users', component: users, meta: { title: 'Users' } },
+            { path: 'courses', name: 'courses', component: courses, meta: { title: 'Courses' } },
+            { path: 'sections', name: 'sections', component: sections, meta: { title: 'Sections' } },
+            { path: 'lessons', name: 'lessons', component: lessons, meta: { title: 'Lessons' } },
+            { path: 'enrollments', name: 'enrollments', component: enrollments, meta: { title: 'Enrollments' } },
+            { path: 'quizzes', name: 'quizzes', component: quizzes, meta: { title: 'Quizzes' } },
+            { path: 'questions', name: 'questions', component: questions, meta: { title: 'Questions' } },
+            { path: 'answers', name: 'answers', component: answers, meta: { title: 'Answers' } },
+            { path: 'quiz-attempts', name: 'quizAttempts', component: quizAttempts, meta: { title: 'Quiz Attempts' } },
+            { path: 'payments', name: 'payments', component: payments, meta: { title: 'Payments' } },
+            { path: 'comments', name: 'comments', component: comments, meta: { title: 'Comments' } },
+            { path: 'settings', name: 'settings', component: settings, meta: { title: 'Settings' } },
+            { path: 'profile', name: 'profile', component: profile, meta: { title: 'Profile' } },
         ]
     },
 ];
