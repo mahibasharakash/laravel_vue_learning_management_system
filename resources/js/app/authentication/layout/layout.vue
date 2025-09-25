@@ -1,5 +1,10 @@
 <template>
 
+    <Breadcrumb v-if="$route.name === 'login'" :breadcrumb-title="'Login'" :breadcrumb-items="[ { breadcrumb_text: 'Home', breadcrumb_link: 'home' }, { breadcrumb_text: 'Login', breadcrumb_link: 'login' } ]" />
+    <Breadcrumb v-if="$route.name === 'forgot'" :breadcrumb-title="'Forgot'" :breadcrumb-items="[ { breadcrumb_text: 'Home', breadcrumb_link: 'home' }, { breadcrumb_text: 'Forgot', breadcrumb_link: 'forgot' } ]" />
+    <Breadcrumb v-if="$route.name === 'reset'" :breadcrumb-title="'Reset'" :breadcrumb-items="[ { breadcrumb_text: 'Home', breadcrumb_link: 'home' }, { breadcrumb_text: 'Reset', breadcrumb_link: 'reset' } ]" />
+    <Breadcrumb v-if="$route.name === 'verification'" :breadcrumb-title="'Verification'" :breadcrumb-items="[ { breadcrumb_text: 'Home', breadcrumb_link: 'home' }, { breadcrumb_text: 'Verification', breadcrumb_link: 'verification' } ]" />
+
     <!-- authentication portal -->
     <section class="mx-auto max-w-7xl px-5 py-16">
         <div class="w-full max-w-[420px] sm:min-w-[420px] mx-auto p-10 bg-white/55 backdrop-blur-xs shadow-xl rounded-lg border border-gray-200">
@@ -31,7 +36,12 @@
 
 <script>
 
+import Breadcrumb from "../../components/breadcrumb.vue";
+
 export default {
+    components: {
+        Breadcrumb
+    },
     data() {
         return {
 

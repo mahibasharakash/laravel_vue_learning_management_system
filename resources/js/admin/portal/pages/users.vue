@@ -249,6 +249,7 @@ export default {
             deleteLoading: false,
             error: {},
             formData: {
+                image: null,
                 id: '',
                 name: '',
                 email: '',
