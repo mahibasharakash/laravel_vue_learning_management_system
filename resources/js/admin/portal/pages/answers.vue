@@ -138,7 +138,7 @@
                     <!-- is correct -->
                     <div class="mb-3 w-full block">
                         <label for="is_correct_yes_or_no" class="form-label"> Select Correct or Not </label>
-                        <div class="w-full flex items-center min-h-[45px] max-h-[45px]">
+                        <div id="is_correct_yes_or_no" class="w-full flex items-center min-h-[45px] max-h-[45px]">
                             <div class="w-1/2">
                                 <label for="is_correct_yes" class="flex justify-start items-center cursor-pointer">
                                     <input type="radio" name="is_correct" id="is_correct_yes" value="yes" class="hidden peer" :checked="formData.is_correct === 1" @change="correctType(1)" />

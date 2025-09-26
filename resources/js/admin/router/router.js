@@ -19,7 +19,8 @@ import answers from "../portal/pages/answers.vue";
 import quizAttempts from "../portal/pages/quiz-attempts.vue";
 import payments from "../portal/pages/payments.vue";
 import comments from "../portal/pages/comments.vue";
-import settings from "../portal/pages/settings.vue";
+import about_us from "../portal/pages/about_us.vue";
+import contact_us from "../portal/pages/contact_us.vue";
 import profile from "../portal/pages/profile.vue";
 
 const routes = [
@@ -46,7 +47,8 @@ const routes = [
             { path: 'quiz-attempts', name: 'quizAttempts', component: quizAttempts, meta: { title: 'Quiz Attempts' } },
             { path: 'payments', name: 'payments', component: payments, meta: { title: 'Payments' } },
             { path: 'comments', name: 'comments', component: comments, meta: { title: 'Comments' } },
-            { path: 'settings', name: 'settings', component: settings, meta: { title: 'Settings' } },
+            { path: 'about_us', name: 'about_us', component: about_us, meta: { title: 'About Us' } },
+            { path: 'contact_us', name: 'contact_us', component: contact_us, meta: { title: 'Contact Us' } },
             { path: 'profile', name: 'profile', component: profile, meta: { title: 'Profile' } },
         ]
     },

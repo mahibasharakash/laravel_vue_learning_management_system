@@ -44,16 +44,16 @@
                 Ensure your account is using a long, random password to stay secure.
             </div>
             <div class="w-full block mb-3">
-                <label for="password" class="form-label"> Current Password </label>
-                <input id="password" type="password" name="password" class="form-control" required autocomplete="off" />
+                <label for="current_password" class="form-label"> Current Password </label>
+                <input id="current_password" type="password" name="current_password" class="form-control" required autocomplete="off" />
             </div>
             <div class="w-full block mb-3">
-                <label for="password" class="form-label"> New Password </label>
-                <input id="password" type="password" name="password" class="form-control" required autocomplete="off" />
+                <label for="new_password" class="form-label"> New Password </label>
+                <input id="new_password" type="password" name="new_password" class="form-control" required autocomplete="off" />
             </div>
             <div class="w-full block mb-3">
-                <label for="password" class="form-label"> Password Confirmation </label>
-                <input id="password" type="password" name="password" class="form-control" required autocomplete="off" />
+                <label for="password_confirmation" class="form-label"> Password Confirmation </label>
+                <input id="password_confirmation" type="password" name="password_confirmation" class="form-control" required autocomplete="off" />
             </div>
             <div class="w-full block">
                 <button type="submit" class="btn-theme">
