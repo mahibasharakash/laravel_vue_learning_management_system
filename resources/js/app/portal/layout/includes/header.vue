@@ -39,10 +39,10 @@
                     Login
                 </RouterLink>
                 <RouterLink v-if="profileData" :to="{name:'details'}" :class="{ 'text-blue-700' : $route.name === 'details', 'text-gray-700' : $route.name !== 'details' }" class="decoration-0 duration-500 hover:text-blue-700 inline-block text-sm font-medium" @click="closeSidebar()">
-                    Details
+                    {{profileData?.name}}
                 </RouterLink>
                 <a v-if="profileData" class="decoration-0 duration-500 hover:text-blue-700 inline-block text-sm font-medium cursor-pointer" @click="logoutApi()">
-
+                    Logout
                 </a>
             </div>
         </div>

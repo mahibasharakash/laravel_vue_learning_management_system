@@ -7,10 +7,17 @@
         <aside class="min-w-[290px] bg-white fixed lg:static top-0 bottom-0 duration-500 shadow-lg lg:shadow-none z-50" @click.stop :class="{ 'start-0' : isSidebarActive, '-start-[290px]' : !isSidebarActive }">
 
             <!-- sidebar header -->
-            <div class="min-h-[80px] w-full flex justify-center items-center text-xl px-5">
+            <div class="min-h-[80px] w-full flex justify-between items-center text-xl px-5">
                 <RouterLink :to="{name:'dashboard'}" class="decoration-0 text-black inline-block font-medium">
                     Admin Panel
                 </RouterLink>
+                <div class="lg:hidden">
+                    <button type="button" class="min-w-[45px] max-w-[45px] min-h-[45px] max-h-[45px] inline-flex justify-center items-center rounded-full bg-gray-100 duration-500 hover:bg-gray-600 hover:text-white cursor-pointer" @click="closeSidebar()">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
             </div>
             <!-- / sidebar header -->
 

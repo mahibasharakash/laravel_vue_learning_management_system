@@ -98,16 +98,22 @@ export default {
                 apiCookies.set('role',response.data.user.role);
                 apiCookies.set('access_token',response.data.token);
                 apiCookies.set('user',JSON.stringify(response.data.user));
-                if(apiCookies.get('role') === 'student') {
-                    this.$router.push({name:'details'});
-                } else {
-                    apiCookies.remove();
+                if(apiCookies.get('role') === 'admin') {
+                    apiCookies.remove('role');
+                    apiCookies.remove('access_token');
+                    apiCookies.remove('user');
+                } else if(apiCookies.get('role') === 'instructor') {
+                    apiCookies.remove('role');
+                    apiCookies.remove('access_token');
+                    apiCookies.remove('user');
+                } else if(apiCookies.get('role') === 'student') {
+                    this.$router.push({ name: 'details' });
                 }
             } catch (e) {
-                if(e.response.data.message) {
-                    this.invalidCredentials = e.response.data.message;
-                } else if (e.response.data.errors) {
-                    this.error = e.response.data.errors;
+                if(e?.response?.data?.message) {
+                    this.invalidCredentials = e?.response?.data?.message;
+                } else if (e?.response?.data?.errors) {
+                    this.error = e?.response?.data?.errors;
                 }
             } finally {
                 this.loading = false;

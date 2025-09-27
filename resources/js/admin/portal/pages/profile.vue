@@ -39,7 +39,7 @@
     <!-- / profile details -->
 
     <!-- change password -->
-    <div class="w-full bg-white rounded-md px-6 py-5 flex justify-start gap-3 shadow-lg mt-3">
+    <div class="w-full bg-white rounded-md px-6 py-5 flex justify-start gap-3 shadow-lg mt-5">
         <form class="w-full block max-w-[650px]">
             <div class="mb-1 block w-full font-semibold text-md text-gray-900">
                 Update Password
@@ -69,7 +69,7 @@
     <!-- / change password -->
 
     <!-- delete account -->
-    <div class="w-full bg-white rounded-md px-6 py-5 flex justify-start gap-3 shadow-lg mt-3">
+    <div class="w-full bg-white rounded-md px-6 py-5 flex justify-start gap-3 shadow-lg mt-5">
         <form class="w-full block max-w-[650px]">
             <div class="mb-1 block w-full font-semibold text-md text-gray-900">
                 Delete Account
