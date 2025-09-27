@@ -71,7 +71,6 @@ export default {
             formData: {
                 email: '',
                 password: '',
-                role: 'admin',
             },
             error: {},
             loading: false,

@@ -1,6 +1,6 @@
 import {createRouter, createWebHistory} from "vue-router";
 
-import apiCookies from "@/api/apiCookies.js";
+import apiCookies from "../../api/apiCookies.js";
 
 import authLayout from "../authentication/layout/layout.vue";
 import login from "../authentication/pages/login.vue";
