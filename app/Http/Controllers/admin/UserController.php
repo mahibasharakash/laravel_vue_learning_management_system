@@ -40,6 +40,7 @@ class UserController extends Controller
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users',
                 'password' => 'required|string|min:5|confirmed',
+                'role' => 'required|string',
             ]);
         } catch (ValidationException $e) {
             return response()->json(['errors' => $e->errors()], 422);
@@ -48,6 +49,7 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => $request->role,
         ]);
         $token = $user->createToken('authToken')->plainTextToken;
         return response()->json( [ 'message' => 'Registration successful', 'user' => $user, 'token' => $token ], 201 );
@@ -152,11 +154,12 @@ class UserController extends Controller
             $request->validate([
                 'name' => 'sometimes|string|max:255',
                 'email' => 'sometimes|email|unique:users,email,' . $user->id,
+                'address' => 'sometimes|string|max:255',
             ]);
         } catch (ValidationException $e) {
             return response()->json( ['errors' => $e->errors() ], 422);
         }
-        $user->update($request->only('name', 'email'));
+        $user->update($request->only('name', 'email', 'address'));
         return response()->json( [ 'message' => 'Details updated successfully', 'user' => $user ] );
     }
 

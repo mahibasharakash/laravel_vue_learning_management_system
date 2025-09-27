@@ -19,11 +19,15 @@
             </div>
             <div class="w-full block mb-3">
                 <label for="name" class="form-label"> Name </label>
-                <input id="name" type="text" name="name" class="form-control" required autocomplete="off" />
+                <input id="name" type="text" name="name" class="form-control" autocomplete="off" />
             </div>
             <div class="w-full block mb-3">
                 <label for="email" class="form-label"> Email </label>
-                <input id="email" type="email" name="email" class="form-control" required autocomplete="off" />
+                <input id="email" type="email" name="email" class="form-control" autocomplete="off" />
+            </div>
+            <div class="w-full block mb-3">
+                <label for="address" class="form-label"> Address </label>
+                <input id="address" type="text" name="address" class="form-control" autocomplete="off" />
             </div>
             <div class="w-full">
                 <button type="submit" class="btn-theme">
@@ -45,15 +49,15 @@
             </div>
             <div class="w-full block mb-3">
                 <label for="current_password" class="form-label"> Current Password </label>
-                <input id="current_password" type="password" name="current_password" class="form-control" required autocomplete="off" />
+                <input id="current_password" type="password" name="current_password" class="form-control" autocomplete="off" />
             </div>
             <div class="w-full block mb-3">
                 <label for="new_password" class="form-label"> New Password </label>
-                <input id="new_password" type="password" name="new_password" class="form-control" required autocomplete="off" />
+                <input id="new_password" type="password" name="new_password" class="form-control" autocomplete="off" />
             </div>
             <div class="w-full block mb-3">
                 <label for="password_confirmation" class="form-label"> Password Confirmation </label>
-                <input id="password_confirmation" type="password" name="password_confirmation" class="form-control" required autocomplete="off" />
+                <input id="password_confirmation" type="password" name="password_confirmation" class="form-control" autocomplete="off" />
             </div>
             <div class="w-full block">
                 <button type="submit" class="btn-theme">
@@ -98,6 +102,7 @@ export default {
             profileData: {
                 name: '',
                 email: '',
+                address: '',
             },
             passwordData: {
                 current_password: '',
