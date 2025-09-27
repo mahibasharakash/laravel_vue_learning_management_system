@@ -1,10 +1,15 @@
 import {createRouter, createWebHistory} from "vue-router";
 
+import apiCookies from "@/api/apiCookies.js";
+
 import authLayout from "../authentication/layout/layout.vue";
 import login from "../authentication/pages/login.vue";
 import forgot from "../authentication/pages/forgot.vue";
 import reset from "../authentication/pages/reset.vue";
 import verification from "../authentication/pages/verification.vue";
+
+import profileLayout from "../profile/layout/layout.vue";
+import details from "../profile/pages/details.vue";
 
 import portalLayout from "../portal/layout/layout.vue";
 import home from "../portal/pages/home.vue";
@@ -30,6 +35,11 @@ const routes = [
                     { path: 'verification', name: 'verification', component: verification, meta: { title: + 'Verification' } },
                 ]
             },
+            { path: 'profile', name: 'profileLayout', component: profileLayout,
+                children: [
+                    { path: 'details', name: 'details', component: details, meta: { title: + 'Student Details' } },
+                ]
+            },
         ]
     },
 ];
@@ -45,6 +55,25 @@ const router = createRouter({
         } else {
             return {top: 0, behavior: 'smooth'};
         }
+    }
+});
+
+router.beforeEach((to, from, next) => {
+    const isAuthenticated = !!apiCookies.get('access_token');
+    if (to.matched.some(record => record.name === 'authLayout')) {
+        if (isAuthenticated) {
+            next({name: 'details'});
+        } else {
+            next();
+        }
+    } else if (to.matched.some(record => record.name === 'profileLayout')) {
+        if (!isAuthenticated) {
+            next({name: 'login'});
+        } else {
+            next();
+        }
+    } else {
+        next();
     }
 });
 

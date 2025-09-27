@@ -1,5 +1,7 @@
 import {createRouter, createWebHistory} from "vue-router";
 
+import apiCookies from "@/api/apiCookies.js";
+
 import authLayout from "../authentication/layout/layout.vue";
 import login from "../authentication/pages/login.vue";
 import forgot from "../authentication/pages/forgot.vue";
@@ -65,6 +67,25 @@ const router = createRouter({
         } else {
             return {top: 0, behavior: 'smooth'};
         }
+    }
+});
+
+router.beforeEach((to, from, next) => {
+    const isAuthenticated = !!apiCookies.get('access_token');
+    if (to.matched.some(record => record.name === 'authLayout')) {
+        if (isAuthenticated) {
+            next({name: 'dashboard'});
+        } else {
+            next();
+        }
+    } else if (to.matched.some(record => record.name === 'profileLayout')) {
+        if (!isAuthenticated) {
+            next({name: 'login'});
+        } else {
+            next();
+        }
+    } else {
+        next();
     }
 });
 

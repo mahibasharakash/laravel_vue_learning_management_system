@@ -63,6 +63,8 @@
 
 <script>
 
+import axios from "axios";
+
 import apiRoutes from "@/api/apiRoutes.js";
 import apiServices from "@/api/apiServices.js";
 import apiCookies from "@/api/apiCookies.js";
@@ -86,13 +88,15 @@ export default {
     methods: {
 
         // reset api implementation
-        resetApi() {
+        async resetApi() {
             try {
-
+                this.error = {};
+                this.loading = true;
+                await axios.post(apiRoutes.reset, this.formData, {headers: apiServices.headerContent});
             } catch (e) {
-
+                this.error = e.response.data.errors;
             } finally {
-
+                this.loading = false;
             }
         }
 

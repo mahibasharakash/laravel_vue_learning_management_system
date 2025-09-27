@@ -37,6 +37,8 @@
 
 <script>
 
+import axios from "axios";
+
 import apiRoutes from "@/api/apiRoutes.js";
 import apiServices from "@/api/apiServices.js";
 import apiCookies from "@/api/apiCookies.js";
@@ -57,13 +59,15 @@ export default {
     methods: {
 
         // forgot api implementation
-        forgotApi() {
+        async forgotApi() {
             try {
-
+                this.error = {};
+                this.loading = true;
+                await axios.post(apiRoutes.forgot, this.formData, {headers: apiServices.headerContent});
             } catch (e) {
-
+                this.error = e.response.data.errors;
             } finally {
-
+                this.loading = false;
             }
         }
 
