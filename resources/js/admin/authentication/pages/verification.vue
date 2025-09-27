@@ -1,19 +1,23 @@
 <template>
 
     <!-- form -->
-    <form class="w-full">
+    <form @submit.prevent="verificationApi()" class="w-full">
 
         <!-- email -->
         <div class="mb-3 w-full block">
-            <label for="email" class="form-label"> Email </label>
-            <input id="email" type="email" name="email" class="form-control" required autocomplete="off" />
+            <label for="verification_code" class="form-label"> Verification Code </label>
+            <input id="verification_code" type="text" name="verification_code" v-model="formData.verification_code" class="form-control" autocomplete="off" />
+            <div class="mt-2 text-red-500 block font-medium text-xs" v-if="error?.verification_code"> {{error?.verification_code[0]}} </div>
         </div>
         <!-- / email -->
 
         <!-- button -->
         <div class="mb-3 w-full block">
-            <button type="submit" class="btn-theme">
+            <button type="submit" class="btn-theme min-w-[120px] max-w-[120px]" v-if="!loading">
                 Verify
+            </button>
+            <button type="button" class="btn-theme min-w-[120px] max-w-[120px]" v-if="loading">
+                <span class="btn-loading-white"></span>
             </button>
         </div>
         <!-- / button -->
@@ -35,16 +39,35 @@
 
 <script>
 
+import apiRoutes from "@/api/apiRoutes.js";
+import apiServices from "@/api/apiServices.js";
+import apiCookies from "@/api/apiCookies.js";
+
 export default {
     data() {
         return {
-
+            formData: {
+                verification_code: '',
+            },
+            error: {},
+            loading: false,
         }
     },
     mounted() {
 
     },
     methods: {
+
+        // verification api implementation
+        verificationApi() {
+            try {
+
+            } catch (e) {
+
+            } finally {
+
+            }
+        }
 
     }
 }

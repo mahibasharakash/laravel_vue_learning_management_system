@@ -1,19 +1,21 @@
 <template>
 
     <!-- form -->
-    <form class="w-full">
+    <form @submit.prevent="loginApi()" class="w-full">
 
         <!-- email -->
         <div class="mb-4 w-full block">
             <label for="email" class="form-label"> Email </label>
-            <input id="email" type="email" name="email" class="form-control" required autocomplete="off" />
+            <input id="email" type="email" name="email" v-model="formData.email" class="form-control" autocomplete="off" />
+            <div class="mt-2 text-red-500 block font-medium text-xs" v-if="error?.email"> {{error?.email[0]}} </div>
         </div>
         <!-- / email -->
 
         <!-- password -->
         <div class="mb-4 w-full block">
             <label for="password" class="form-label"> Password </label>
-            <input id="password" type="password" name="password" class="form-control" required autocomplete="off" />
+            <input id="password" type="password" name="password" v-model="formData.password" class="form-control" autocomplete="off" />
+            <div class="mt-2 text-red-500 block font-medium text-xs" v-if="error?.password"> {{error?.password[0]}} </div>
         </div>
         <!-- / password -->
 
@@ -34,8 +36,11 @@
         <div class="w-full flex justify-between items-center">
 
             <!-- button -->
-            <button type="submit" class="btn-theme">
+            <button type="submit" class="btn-theme min-w-[120px] max-w-[120px]" v-if="!loading">
                 Login
+            </button>
+            <button type="button" class="btn-theme min-w-[120px] max-w-[120px]" v-if="loading">
+                <span class="btn-loading-white"></span>
             </button>
             <!-- / button -->
 
@@ -54,16 +59,37 @@
 
 <script>
 
+import apiRoutes from "@/api/apiRoutes.js";
+import apiServices from "@/api/apiServices.js";
+import apiCookies from "@/api/apiCookies.js";
+
 export default {
     data() {
         return {
-
+            formData: {
+                email: '',
+                password: '',
+                role: 'student',
+            },
+            error: {},
+            loading: false,
         }
     },
     mounted() {
 
     },
     methods: {
+
+        // login api implementation
+        loginApi() {
+            try {
+
+            } catch (e) {
+
+            } finally {
+
+            }
+        }
 
     }
 }

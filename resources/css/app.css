@@ -41,6 +41,10 @@
         @apply duration-500 cursor-pointer font-semibold text-xs px-6 min-h-[46px] max-h-[46px] outline-0 bg-red-500 text-white hover:bg-red-700 rounded-md inline-flex justify-center items-center;
     }
 
+    .btn-loading-white {
+        @apply w-4 h-4 rounded-full border-2 border-b-transparent border-white animate-spin;
+    }
+
 }
 
 @layer utilities {
