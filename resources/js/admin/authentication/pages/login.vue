@@ -3,6 +3,12 @@
     <!-- form -->
     <form @submit.prevent="loginApi()" class="w-full">
 
+        <!-- invalid credentials -->
+        <div class="w-full block p-3 bg-red-100 mb-3 text-center text-red-500 text-xs font-medium rounded-md" v-if="invalidCredentials">
+            {{invalidCredentials}}
+        </div>
+        <!-- / invalid credentials -->
+
         <!-- email -->
         <div class="mb-4 w-full block">
             <label for="email" class="form-label"> Email </label>
@@ -73,6 +79,7 @@ export default {
                 password: '',
             },
             error: {},
+            invalidCredentials: null,
             loading: false,
         }
     },
@@ -84,11 +91,24 @@ export default {
         // login api implementation
         async loginApi() {
             try {
+                this.invalidCredentials = null;
                 this.error = {};
                 this.loading = true;
-                await axios.post(apiRoutes.login, this.formData, {headers: apiServices.headerContent});
+                const response = await axios.post(apiRoutes.login, this.formData, {headers: apiServices.headerContent});
+                apiCookies.set('role',response.data.user.role);
+                apiCookies.set('access_token',response.data.token);
+                apiCookies.set('user',JSON.stringify(response.data.user));
+                if(apiCookies.get('role') === 'admin') {
+                    this.$router.push({name:'dashboard'});
+                } else {
+                    apiCookies.remove();
+                }
             } catch (e) {
-                this.error = e.response.data.errors;
+                if(e.response.data.message) {
+                    this.invalidCredentials = e.response.data.message;
+                } else if (e.response.data.errors) {
+                    this.error = e.response.data.errors;
+                }
             } finally {
                 this.loading = false;
             }

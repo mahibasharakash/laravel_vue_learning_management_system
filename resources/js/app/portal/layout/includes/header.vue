@@ -35,9 +35,15 @@
                 <RouterLink :to="{name:'courses'}" :class="{ 'text-blue-700' : $route.name === 'courses', 'text-gray-700' : $route.name !== 'courses' }" class="decoration-0 duration-500 hover:text-blue-700 inline-block text-sm font-medium" @click="closeSidebar()">
                     Courses
                 </RouterLink>
-                <RouterLink :to="{name:'login'}" :class="{ 'text-blue-700' : $route.name === 'login', 'text-gray-700' : $route.name !== 'login' }" class="decoration-0 duration-500 hover:text-blue-700 inline-block text-sm font-medium" @click="closeSidebar()">
+                <RouterLink v-if="!profileData" :to="{name:'login'}" :class="{ 'text-blue-700' : $route.name === 'login', 'text-gray-700' : $route.name !== 'login' }" class="decoration-0 duration-500 hover:text-blue-700 inline-block text-sm font-medium" @click="closeSidebar()">
                     Login
                 </RouterLink>
+                <RouterLink v-if="profileData" :to="{name:'details'}" :class="{ 'text-blue-700' : $route.name === 'details', 'text-gray-700' : $route.name !== 'details' }" class="decoration-0 duration-500 hover:text-blue-700 inline-block text-sm font-medium" @click="closeSidebar()">
+                    Details
+                </RouterLink>
+                <a v-if="profileData" class="decoration-0 duration-500 hover:text-blue-700 inline-block text-sm font-medium cursor-pointer" @click="logoutApi()">
+
+                </a>
             </div>
         </div>
     </header>
@@ -46,20 +52,40 @@
 
 <script>
 
+import axios from "axios";
+
+import apiRoutes from "@/api/apiRoutes.js";
+import apiServices from "@/api/apiServices.js";
+import apiCookies from "@/api/apiCookies.js";
+
 export default {
     data() {
         return {
             isScrolled: false,
             isSidebarActive: false,
+            profileData: JSON.parse(apiCookies.get('user')) || null,
+            cookieUser: apiCookies.get('user') || null,
+        }
+    },
+    watch: {
+        cookieUser(newVal) {
+            this.profileData = newVal ? JSON.parse(newVal) : null;
         }
     },
     mounted() {
+        this.cookieInterval = setInterval(() => {
+            const currentCookie = apiCookies.get('user');
+            if (currentCookie !== this.cookieUser) {
+                this.cookieUser = currentCookie;
+            }
+        }, 500);
         window.addEventListener('scroll', this.handleScroll);
         window.addEventListener('click', (event) => this.handleOutSideClick());
     },
     beforeUnmount() {
         window.removeEventListener('scroll', this.handleScroll);
         window.removeEventListener('click', (event) => this.handleOutSideClick());
+        clearInterval(this.cookieInterval);
     },
     methods: {
 
@@ -79,6 +105,23 @@ export default {
 
         closeSidebar() {
             this.isSidebarActive = false;
+        },
+
+        // logout api implementation
+        async logoutApi() {
+            try {
+                this.logoutLoading = true;
+                await axios.post(apiRoutes.logout, null, { headers: apiServices.headerContent });
+                apiCookies.remove("access_token");
+                apiCookies.remove("user");
+                apiCookies.remove("role");
+                this.profileData = null;
+                this.$router.push({ name: "login" });
+            } catch (e) {
+                console.error(e);
+            } finally {
+                this.logoutLoading = false;
+            }
         },
 
     }

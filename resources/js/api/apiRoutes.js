@@ -7,6 +7,7 @@ const apiRoutes = {
     verification: '/auth/verification',
 
     profile: 'profile',
+    logout: '/profile/logout',
     dashboard: 'dashboard',
     answer: 'answer',
     comment: 'comment',

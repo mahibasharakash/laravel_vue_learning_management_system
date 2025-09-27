@@ -235,13 +235,16 @@
                                     </span>
                                     Profile
                                 </RouterLink>
-                                <button type="button" class="cursor-pointer w-full decoration-0 flex justify-start items-center hover:bg-blue-600 hover:text-white py-3 px-4.5 duration-500 rounded-md text-sm font-medium gap-3" v-if="!logoutLoading" @click="dropdownToggle();closeSidebar()">
+                                <button type="button" class="cursor-pointer w-full decoration-0 flex justify-start items-center hover:bg-blue-600 hover:text-white py-3 px-4.5 duration-500 rounded-md text-sm font-medium gap-3 mb-0.5 text-gray-700" v-if="!logoutLoading" @click="closeSidebar();logoutApi()">
                                     <span>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4.5 h-4.5">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M5.636 5.636a9 9 0 1 0 12.728 0M12 3v9" />
                                         </svg>
                                     </span>
                                     Logout
+                                </button>
+                                <button type="button" class="btn-theme w-full" v-if="logoutLoading">
+                                    <span class="btn-loading-white"></span>
                                 </button>
                             </div>
                         </div>
@@ -265,6 +268,12 @@
 </template>
 
 <script>
+
+import axios from "axios";
+
+import apiRoutes from "@/api/apiRoutes.js";
+import apiServices from "@/api/apiServices.js";
+import apiCookies from "@/api/apiCookies.js";
 
 export default {
     data() {
@@ -327,6 +336,19 @@ export default {
                 this.isSidebarActive = false;
             }
         },
+
+        async logoutApi() {
+            try {
+                this.logoutLoading = true;
+                await axios.post(apiRoutes.logout, null, {headers: apiServices.headerContent});
+                apiCookies.remove('access_token', null);
+                apiCookies.remove('role', null);
+                apiCookies.remove('user', null);
+                this.$router.push({name:'login'});
+            } finally {
+                this.logoutLoading = false;
+            }
+        }
 
     }
 }
