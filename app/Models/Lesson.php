@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Lesson extends Model
 {
@@ -14,5 +15,10 @@ class Lesson extends Model
         'video_url',
         'duration',
     ];
+
+    public function section(): BelongsTo
+    {
+        return $this->belongsTo(Section::class);
+    }
 
 }
