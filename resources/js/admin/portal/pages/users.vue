@@ -18,7 +18,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                 </svg>
             </div>
-            <input type="search" name="search" class="font-medium text-sm w-full block min-h-[48px] max-h-[48px] rounded-md bg-white outline-0 border-0 px-5 placeholder-black text-black ring-0 focus-within:ring-2 ring-blue-500 duration-500 shadow-lg" placeholder="Search Here" required autocomplete="off" />
+            <input type="search" name="search" v-model="params.search" @input="searchData()" class="font-medium text-sm w-full block min-h-[48px] max-h-[48px] rounded-md bg-white outline-0 border-0 px-5 placeholder-black text-black ring-0 focus-within:ring-2 ring-blue-500 duration-500 shadow-lg" placeholder="Search Here" required autocomplete="off" />
         </div>
         <!-- / search -->
 
@@ -36,22 +36,22 @@
 
         <!-- table data list -->
         <template v-if="tableData.length > 0 && !listLoading">
-            <div class="w-full min-h-[calc(100vh-350px)] max-h-[calc(100vh-350px)] rounded-md shadow-lg bg-white p-2.5 overflow-x-auto">
+            <div class="w-full min-h-[calc(100vh-300px)] max-h-[calc(100vh-300px)] rounded-md shadow-lg bg-white p-2.5 overflow-x-auto">
                 <table class="table table-auto w-full">
 
                     <!-- table data header -->
                     <thead class="w-full">
                         <tr class="w-full">
-                            <th class="min-w-[250px] max-w-[250px] py-2 px-4 text-start text-sm font-medium">
+                            <th class="min-w-[250px] max-w-[250px] py-3 px-3.5 text-start text-sm font-medium">
                                 Name
                             </th>
-                            <th class="min-w-[250px] max-w-[250px] py-2 px-4 text-start text-sm font-medium">
+                            <th class="min-w-[250px] max-w-[250px] py-3 px-3.5 text-start text-sm font-medium">
                                 Email
                             </th>
-                            <th class="min-w-[120px] max-w-[120px] py-2 px-4 text-start text-sm font-medium">
+                            <th class="min-w-[120px] max-w-[120px] py-3 px-3.5 text-start text-sm font-medium">
                                 Role
                             </th>
-                            <th class="min-w-[150px] max-w-[150px] py-2 px-4 text-start text-sm font-medium">
+                            <th class="min-w-[150px] max-w-[150px] py-3 px-3.5 text-start text-sm font-medium">
                                 Action
                             </th>
                         </tr>
@@ -60,17 +60,17 @@
 
                     <!-- table data body -->
                     <tbody class="w-full">
-                        <tr class="w-full" v-for="(each, index) in tableData" :key="index">
-                            <td class="min-w-[250px] max-w-[250px] py-2 px-4 text-start text-sm font-medium">
+                        <tr class="w-full bg-transparent duration-500 hover:bg-gray-200" v-for="(each, index) in tableData" :key="index">
+                            <td class="min-w-[250px] max-w-[250px] py-3 px-3.5 text-gray-600 text-start text-sm font-medium">
                                 {{each.name}}
                             </td>
-                            <td class="min-w-[250px] max-w-[250px] py-2 px-4 text-start text-sm font-medium">
+                            <td class="min-w-[250px] max-w-[250px] py-3 px-3.5 text-gray-600 text-start text-sm font-medium">
                                 {{each.email}}
                             </td>
-                            <td class="min-w-[120px] max-w-[120px] py-2 px-4 text-start text-sm font-medium">
+                            <td class="min-w-[120px] max-w-[120px] py-3 px-3.5 text-gray-600 text-start text-sm font-medium">
                                 {{each.role}}
                             </td>
-                            <td class="min-w-[150px] max-w-[150px] py-2 px-4 text-start">
+                            <td class="min-w-[150px] max-w-[150px] py-3 px-3.5 text-start">
                                 <div class="flex justify-start items-center gap-3">
                                     <button type="button" class="cursor-pointer p-0 m-0 decoration-0 text-gray-700 text-sm font-medium" @click="openManageModal(each.id)">
                                         Edit
@@ -91,7 +91,7 @@
 
         <!-- no data found -->
         <template v-if="tableData.length === 0 && !listLoading">
-            <div class="w-full min-h-[calc(100vh-260px)] max-h-[calc(100vh-300px)] rounded-md shadow-lg bg-white p-2.5 flex justify-center items-center flex-col font-medium">
+            <div class="w-full min-h-[calc(100vh-300px)] max-h-[calc(100vh-300px)] rounded-md shadow-lg bg-white p-2.5 flex justify-center items-center flex-col font-medium">
                 <div class="mb-1 inline-block">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-20 h-20 text-blue-600">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
@@ -109,7 +109,7 @@
 
         <!-- loading -->
         <template v-if="listLoading">
-            <div class="w-full min-h-[calc(100vh-260px)] max-h-[calc(100vh-300px)] rounded-md shadow-lg bg-white p-2.5 flex justify-center items-center font-medium">
+            <div class="w-full min-h-[calc(100vh-300px)] max-h-[calc(100vh-300px)] rounded-md shadow-lg bg-white p-2.5 flex justify-center items-center font-medium">
                 <span class="w-18 h-18 rounded-full border-6 border-b-transparent border-blue-600 animate-spin"></span>
             </div>
         </template>
@@ -183,6 +183,35 @@
 
                 <!-- body -->
                 <div class="w-full block">
+
+                    <!-- upload image -->
+                    <div class="mb-3 w-ful block">
+                        <div v-if="attach_preview" class="w-full relative rounded-md min-h-[200px] max-h-[200px] overflow-hidden">
+                            <img :src="attach_preview" class="w-full object-contain bg-contain max-h-[200px] min-h-[200px]" alt="upload-image" />
+                            <div class="absolute inset-0 flex justify-center items-center">
+                                <button type="button" class="min-w-[45px] max-w-[45px] min-h-[45px] max-h-[45px] inline-flex justify-center items-center bg-red-500 cursor-pointer text-white hover:bg-red-700 rounded-full" @click="removeFile()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <label v-else for="upload-image" class="w-full flex justify-center items-center flex-col gap-2 rounded-md min-h-[200px] max-h-[200px] bg-gray-200 duration-500 hover:bg-gray-400 shadow-inner cursor-pointer">
+                            <input type="file" name="image" id="upload-image" @change="attachFile($event)" hidden="hidden" />
+                            <span class="inline-block mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+                                </svg>
+                            </span>
+                            <span class="text-xs font-semibold">
+                                Max 500Kbs Upload File
+                            </span>
+                            <span class="text-xs font-medium">
+                                Upload Image
+                            </span>
+                        </label>
+                    </div>
+                    <!-- / upload image -->
 
                     <!-- name -->
                     <div class="mb-3 w-full block">
@@ -328,6 +357,7 @@ export default {
             deleteLoading: false,
             showLoading: false,
             listLoading: false,
+            attach_preview: null,
             error: {},
             formData: {
                 image: null,
@@ -363,6 +393,7 @@ export default {
             if(data) {
                 this.showApi(data);
             } else {
+                this.attach_preview = null;
                 this.formData = {
                     image: null,
                     id: '',
@@ -434,6 +465,18 @@ export default {
             return range;
         },
 
+        // attach file
+        attachFile(e) {
+            this.attach_preview = URL.createObjectURL(e.target.files[0]);
+            this.formData.image = e.target.files[0];
+        },
+
+        // remove file
+        removeFile() {
+            this.attach_preview = null;
+            this.formData.image = null;
+        },
+
         // manage api
         manageApi() {
             if(this.formData.id) {
@@ -457,7 +500,7 @@ export default {
                 if (this.formData.image) {
                     formData.append("image", this.formData.image);
                 }
-                await axios.post(apiRoutes.user.store, formData, { headers: apiServices.headerContent });
+                await axios.post(apiRoutes.user.store, formData, { headers: apiServices.mediaHeaderContent });
                 this.formData = { image: null, id: '', name: '', email: '', password: '', password_confirmation: '', role: null };
                 await this.listApi();
                 this.closeManageModal();
@@ -481,7 +524,7 @@ export default {
                 if (this.formData.image) {
                     formData.append("image", this.formData.image);
                 }
-                await axios.put(apiRoutes.user.update(this.formData.id), formData, { headers: apiServices.headerContent });
+                await axios.put(apiRoutes.user.update(this.formData.id), formData, { headers: apiServices.mediaHeaderContent });
                 this.formData = { image: null, id: '', name: '', email: '', password: '', password_confirmation: '', role: null };
                 await this.listApi();
                 this.closeManageModal();
@@ -497,7 +540,8 @@ export default {
             try {
                 this.showLoading = true;
                 const response = await axios.get(apiRoutes.user.show(data), { headers: apiServices.headerContent });
-                this.formData = response.data.user
+                this.formData = response?.data?.user;
+                this.attach_preview = `/storage/${response?.data?.user?.image}`;
             } finally {
                 this.showLoading = false;
             }
