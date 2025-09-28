@@ -23,7 +23,7 @@
         <!-- / search -->
 
         <!-- create -->
-        <button type="button" class="text-sm cursor-pointer duration-500 min-w-[100px] max-w-[100px] min-h-[48px] max-h-[48px] inline-flex justify-center items-center rounded-md outline-0 border-0 bg-blue-500 hover:bg-blue-800 text-white" @click="openManageModal()">
+        <button type="button" class="text-sm cursor-pointer duration-500 min-w-[100px] max-w-[100px] min-h-[48px] max-h-[48px] inline-flex justify-center items-center rounded-md outline-0 border-0 bg-blue-500 hover:bg-blue-800 text-white" @click="openManageModal(null)">
             Create
         </button>
         <!-- / create -->
@@ -33,49 +33,123 @@
 
     <!-- body -->
     <div class="w-full mt-3">
-        <div class="w-full min-h-[calc(100vh-350px)] max-h-[calc(100vh-350px)] rounded-md shadow-lg bg-white">
 
-        </div>
+        <!-- table data list -->
+        <template v-if="tableData.length > 0 && !listLoading">
+            <div class="w-full min-h-[calc(100vh-350px)] max-h-[calc(100vh-350px)] rounded-md shadow-lg bg-white p-2.5 overflow-x-auto">
+                <table class="table table-auto w-full">
+
+                    <!-- table data header -->
+                    <thead class="w-full">
+                        <tr class="w-full">
+                            <th class="min-w-[250px] max-w-[250px] py-2 px-4 text-start text-sm font-medium">
+                                Name
+                            </th>
+                            <th class="min-w-[250px] max-w-[250px] py-2 px-4 text-start text-sm font-medium">
+                                Email
+                            </th>
+                            <th class="min-w-[120px] max-w-[120px] py-2 px-4 text-start text-sm font-medium">
+                                Role
+                            </th>
+                            <th class="min-w-[150px] max-w-[150px] py-2 px-4 text-start text-sm font-medium">
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <!-- / table data header -->
+
+                    <!-- table data body -->
+                    <tbody class="w-full">
+                        <tr class="w-full" v-for="(each, index) in tableData" :key="index">
+                            <td class="min-w-[250px] max-w-[250px] py-2 px-4 text-start text-sm font-medium">
+                                {{each.name}}
+                            </td>
+                            <td class="min-w-[250px] max-w-[250px] py-2 px-4 text-start text-sm font-medium">
+                                {{each.email}}
+                            </td>
+                            <td class="min-w-[120px] max-w-[120px] py-2 px-4 text-start text-sm font-medium">
+                                {{each.role}}
+                            </td>
+                            <td class="min-w-[150px] max-w-[150px] py-2 px-4 text-start">
+                                <div class="flex justify-start items-center gap-3">
+                                    <button type="button" class="cursor-pointer p-0 m-0 decoration-0 text-gray-700 text-sm font-medium" @click="openManageModal(each.id)">
+                                        Edit
+                                    </button>
+                                    <button type="button" class="cursor-pointer p-0 m-0 decoration-0 text-red-500 text-sm font-medium" @click="openDeleteModal(each.id)">
+                                        Delete
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <!-- / table data body -->
+
+                </table>
+            </div>
+        </template>
+        <!-- / table data list -->
+
+        <!-- no data found -->
+        <template v-if="tableData.length === 0 && !listLoading">
+            <div class="w-full min-h-[calc(100vh-260px)] max-h-[calc(100vh-300px)] rounded-md shadow-lg bg-white p-2.5 flex justify-center items-center flex-col font-medium">
+                <div class="mb-1 inline-block">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-20 h-20 text-blue-600">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
+                    </svg>
+                </div>
+                <div class="mb-3 inline-block text-gray-800">
+                    No Data Found
+                </div>
+                <div class="inline-block text-sm text-gray-600">
+                    Click " <span class="text-blue-700">ADD</span> " For New Data
+                </div>
+            </div>
+        </template>
+        <!-- / no data found -->
+
+        <!-- loading -->
+        <template v-if="listLoading">
+            <div class="w-full min-h-[calc(100vh-260px)] max-h-[calc(100vh-300px)] rounded-md shadow-lg bg-white p-2.5 flex justify-center items-center font-medium">
+                <span class="w-18 h-18 rounded-full border-6 border-b-transparent border-blue-600 animate-spin"></span>
+            </div>
+        </template>
+        <!-- / loading -->
+
     </div>
     <!-- / body -->
 
     <!-- pagination & count -->
-    <div class="w-full mt-5">
+    <div class="w-full mt-5" v-if="tableData.length > 0">
         <div class="w-full flex justify-between items-center flex-wrap">
 
             <!-- pagination -->
             <div class="flex justify-start items-center gap-1">
-                <button type="button" class="text-xs font-medium cursor-pointer min-w-[40px] max-w-[40px] min-h-[40px] max-h-[40px] inline-flex justify-center items-center outline-0 border-0 bg-blue-500 hover:bg-blue-800 text-white rounded-full duration-500">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="min-w-3.5 max-w-3.5 min-h-3.5 max-h-3.5">
+
+                <!-- Previous button -->
+                <button type="button" :disabled="pagination.current_page <= 1" @click="goToPage(pagination.current_page - 1)" class="disabled:bg-blue-300 cursor-pointer rounded-full min-w-[35px] max-w-[35px] min-h-[35px] max-h-[35px] text-md inline-flex justify-center items-center bg-blue-400 duration-500 text-white hover:bg-blue-700 disabled:cursor-not-allowed">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-4 h-4">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                     </svg>
                 </button>
-                <button type="button" class="text-xs font-medium cursor-pointer min-w-[40px] max-w-[40px] min-h-[40px] max-h-[40px] inline-flex justify-center items-center outline-0 border-0 bg-blue-500 hover:bg-blue-800 text-white rounded-full duration-500">
-                    1
+
+                <!-- Page buttons -->
+                <button v-for="page in getPageRange()" :key="page" type="button" @click="goToPage(page)" :class="[ 'cursor-pointer rounded-full min-w-[35px] max-w-[35px] min-h-[35px] max-h-[35px] text-md inline-flex justify-center items-center duration-500', page === pagination.current_page ? 'bg-blue-700 text-white' : 'bg-blue-400 text-white hover:bg-blue-700' ]">
+                    {{ page }}
                 </button>
-                <button type="button" class="text-xs font-medium cursor-pointer min-w-[40px] max-w-[40px] min-h-[40px] max-h-[40px] inline-flex justify-center items-center outline-0 border-0 bg-blue-500 hover:bg-blue-800 text-white rounded-full duration-500">
-                    2
-                </button>
-                <button type="button" class="text-xs font-medium cursor-pointer min-w-[40px] max-w-[40px] min-h-[40px] max-h-[40px] inline-flex justify-center items-center outline-0 border-0 bg-blue-500 hover:bg-blue-800 text-white rounded-full duration-500">
-                    3
-                </button>
-                <button type="button" class="text-xs font-medium cursor-pointer min-w-[40px] max-w-[40px] min-h-[40px] max-h-[40px] inline-flex justify-center items-center outline-0 border-0 bg-blue-500 hover:bg-blue-800 text-white rounded-full duration-500">
-                    4
-                </button>
-                <button type="button" class="text-xs font-medium cursor-pointer min-w-[40px] max-w-[40px] min-h-[40px] max-h-[40px] inline-flex justify-center items-center outline-0 border-0 bg-blue-500 hover:bg-blue-800 text-white rounded-full duration-500">
-                    5
-                </button>
-                <button type="button" class="text-xs font-medium cursor-pointer min-w-[40px] max-w-[40px] min-h-[40px] max-h-[40px] inline-flex justify-center items-center outline-0 border-0 bg-blue-500 hover:bg-blue-800 text-white rounded-full duration-500">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="min-w-3.5 max-w-3.5 min-h-3.5 max-h-3.5">
+
+                <!-- Next button -->
+                <button type="button" :disabled="pagination.current_page >= pagination.last_page" @click="goToPage(pagination.current_page + 1)" class="disabled:bg-blue-300 cursor-pointer rounded-full min-w-[35px] max-w-[35px] min-h-[35px] max-h-[35px] text-md inline-flex justify-center items-center bg-blue-400 duration-500 text-white hover:bg-blue-700 disabled:cursor-not-allowed">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-4 h-4">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                     </svg>
                 </button>
+
             </div>
             <!-- / pagination -->
 
             <!-- count -->
             <div class="text-gray-800 font-medium min-h-[40px] max-h-[40px] flex items-center justify-end">
-                Showing 1 to 10 of 30 entries
+                Showing {{ tableData.length }} to {{ pagination.total }}
             </div>
             <!-- / count -->
 
@@ -148,7 +222,6 @@
                         <div class="w-full relative">
                             <select name="role" id="role" v-model="formData.role" class="form-select" autocomplete="off">
                                 <option :value="null"> Select Role </option>
-                                <option :value="'admin'"> admin </option>
                                 <option :value="'instructor'"> instructor </option>
                                 <option :value="'student'"> student </option>
                             </select>
@@ -167,15 +240,15 @@
 
                 <!-- footer -->
                 <div class="w-full flex justify-end items-center gap-2">
-                    <button type="button" class="btn-lighter" @click="closeManageModal()">
+                    <button type="button" class="btn-lighter min-w-[105px] max-w-[105px]" @click="closeManageModal()">
                         Cancel
                     </button>
-                    <button type="submit" class="btn-theme" v-if="!manageLoading">
+                    <button type="submit" class="btn-theme min-w-[105px] max-w-[105px]" v-if="!manageLoading">
                         <template v-if="formData.id"> Update </template>
                         <template v-else> Create </template>
                     </button>
-                    <button type="button" class="btn-theme" v-if="manageLoading">
-                        <span class="inline-block rounded-full w-4 h-4 border-2 border-white border-t-transparent animate-spin"></span>
+                    <button type="button" class="btn-theme min-w-[105px] max-w-[105px]" v-if="manageLoading">
+                        <span class="btn-loading-white"></span>
                     </button>
                 </div>
                 <!-- / footer -->
@@ -214,14 +287,14 @@
 
                 <!-- footer -->
                 <div class="w-full flex justify-center items-center gap-5">
-                    <button type="button" class="min-w-[110px] max-w-[110px] font-medium cursor-pointer bg-gray-200 duration-500 hover:bg-gray-300 px-8 text-xs rounded-md min-h-[45px] max-h-[45px] inline-flex justify-center items-center" @click="closeDeleteModal()">
+                    <button type="button" class="btn-lighter min-w-[115px] max-w-[115px]" @click="closeDeleteModal()">
                         Cancel
                     </button>
-                    <button type="submit" class="min-w-[110px] max-w-[110px] font-medium cursor-pointer bg-red-500 duration-500 hover:bg-red-700 text-white px-8 text-xs rounded-md min-h-[45px] max-h-[45px] inline-flex justify-center items-center" v-if="!deleteLoading">
+                    <button type="submit" class="btn-danger min-w-[115px] max-w-[115px]" v-if="!deleteLoading">
                         Confirm
                     </button>
-                    <button type="button" class="min-w-[110px] max-w-[110px] font-medium cursor-pointer bg-red-500 duration-500 hover:bg-red-700 text-white px-8 text-xs rounded-md min-h-[45px] max-h-[45px] inline-flex justify-center items-center" v-if="deleteLoading">
-                        <span class="inline-block rounded-full w-4 h-4 border-2 border-white border-t-transparent animate-spin"></span>
+                    <button type="button" class="btn-danger min-w-[115px] max-w-[115px]" v-if="deleteLoading">
+                        <span class="btn-loading-white"></span>
                     </button>
                 </div>
                 <!-- / footer -->
@@ -239,6 +312,12 @@
 
 <script>
 
+import axios from "axios";
+
+import apiRoutes from "@/api/apiRoutes.js";
+import apiServices from "@/api/apiServices.js";
+import apiCookies from "@/api/apiCookies.js";
+
 export default {
     data() {
         return {
@@ -247,6 +326,8 @@ export default {
             isActiveDeleteModal: false,
             manageLoading: false,
             deleteLoading: false,
+            showLoading: false,
+            listLoading: false,
             error: {},
             formData: {
                 image: null,
@@ -254,31 +335,56 @@ export default {
                 name: '',
                 email: '',
                 password: '',
+                password_confirmation: '',
                 role: null, // admin instructor student
-                email_verified_at: '',
-                remember_token: '',
-                created_at: '',
-                update_at: '',
+            },
+            tableData: [],
+            params: {
+                page: 1,
+                per_page: 10,
+                search: ''
+            },
+            pagination: {
+                current_page: 1,
+                per_page: 10,
+                total: 0,
+                last_page: 0
             },
         }
     },
     mounted() {
-
+        this.listApi();
     },
     methods: {
 
         // open manage modal
-        openManageModal() {
+        openManageModal(data = null) {
+            this.error = {};
+            if(data) {
+                this.showApi(data);
+            } else {
+                this.formData = {
+                    image: null,
+                    id: '',
+                    name: '',
+                    email: '',
+                    password: '',
+                    password_confirmation: '',
+                    role: null,
+                }
+            }
             this.isActiveManageModal = true;
         },
 
         // close manage modal
         closeManageModal() {
+            this.error = {};
             this.isActiveManageModal = false;
         },
 
         // open manage modal
-        openDeleteModal() {
+        openDeleteModal(data) {
+            this.formData.id = data;
             this.isActiveDeleteModal = true;
         },
 
@@ -287,14 +393,126 @@ export default {
             this.isActiveDeleteModal = false;
         },
 
-        // manage api
-        manageApi() {
-
+        // list api implementation
+        async listApi() {
+            try {
+                this.listLoading = true;
+                const response = await axios.get(apiRoutes.user.list, {params: this.params}, {headers: apiServices.headerContent});
+                this.tableData = response?.data?.data;
+                this.pagination = response?.data?.pagination;
+            } finally {
+                this.listLoading = false;
+            }
         },
 
-        // delete api
-        deleteApi() {
+        // search data
+        searchData() {
+            clearTimeout(this.searchTimeout);
+            this.searchTimeout = setTimeout(() => {
+                this.params.page = 1;
+                this.listApi();
+            }, 500);
+        },
 
+        // page change
+        goToPage(page) {
+            if (page >= 1 && page <= this.pagination.last_page) {
+                this.params.page = page;
+                this.listApi();
+            }
+        },
+
+        // Generate max 5-page buttons
+        getPageRange() {
+            const total = this.pagination.last_page || 1;
+            let start = this.pagination.current_page - 2;
+            let end = this.pagination.current_page + 2;
+            if (start < 1) { start = 1; end = Math.min(5, total); }
+            if (end > total) { end = total; start = Math.max(total - 4, 1); }
+            const range = [];
+            for (let i = start; i <= end; i++) { range.push(i); }
+            return range;
+        },
+
+        // manage api
+        manageApi() {
+            if(this.formData.id) {
+                this.updateApi();
+            } else {
+                this.createApi();
+            }
+        },
+
+        // create api implementation
+        async createApi() {
+            try {
+                this.manageLoading = true;
+                this.error = {};
+                let formData = new FormData();
+                formData.append('name', this.formData.name);
+                formData.append('email', this.formData.email);
+                formData.append('password', this.formData.password);
+                formData.append('password_confirmation', this.formData.password_confirmation);
+                formData.append('role', this.formData.role);
+                if (this.formData.image) {
+                    formData.append("image", this.formData.image);
+                }
+                await axios.post(apiRoutes.user.store, formData, { headers: apiServices.headerContent });
+                this.formData = { image: null, id: '', name: '', email: '', password: '', password_confirmation: '', role: null };
+                await this.listApi();
+                this.closeManageModal();
+            } catch (e) {
+                this.error = e?.response?.data?.errors;
+            } finally {
+                this.manageLoading = false;
+            }
+        },
+
+        // update api implementation
+        async updateApi() {
+            try {
+                this.manageLoading = true;
+                let formData = new FormData();
+                formData.append('name', this.formData.name);
+                formData.append('email', this.formData.email);
+                formData.append('password', this.formData.password);
+                formData.append('password_confirmation', this.formData.password_confirmation);
+                formData.append('role', this.formData.role);
+                if (this.formData.image) {
+                    formData.append("image", this.formData.image);
+                }
+                await axios.put(apiRoutes.user.update(this.formData.id), formData, { headers: apiServices.headerContent });
+                this.formData = { image: null, id: '', name: '', email: '', password: '', password_confirmation: '', role: null };
+                await this.listApi();
+                this.closeManageModal();
+            } catch (e) {
+                this.error = e?.response?.data?.errors;
+            } finally {
+                this.manageLoading = false;
+            }
+        },
+
+        // show api implementation
+        async showApi(data) {
+            try {
+                this.showLoading = true;
+                const response = await axios.get(apiRoutes.user.show(data), { headers: apiServices.headerContent });
+                this.formData = response.data.user
+            } finally {
+                this.showLoading = false;
+            }
+        },
+
+        // delete api implementation
+        async deleteApi() {
+            try {
+                this.deleteLoading = true;
+                await axios.delete(apiRoutes.user.delete(this.formData.id), { headers: apiServices.headerContent });
+                await this.listApi();
+                this.closeDeleteModal();
+            } finally {
+                this.deleteLoading = false;
+            }
         },
 
     }

@@ -58,6 +58,12 @@ const router = createRouter({
     }
 });
 
+if (apiCookies.get('role') !== 'student') {
+    apiCookies.remove('user');
+    apiCookies.remove('role');
+    apiCookies.remove('access_token');
+}
+
 router.beforeEach((to, from, next) => {
     const isAuthenticated = !!apiCookies.get('access_token');
     if (to.matched.some(record => record.name === 'authLayout')) {

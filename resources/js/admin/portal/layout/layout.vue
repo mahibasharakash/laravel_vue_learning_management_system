@@ -7,8 +7,8 @@
         <aside class="min-w-[290px] bg-white fixed lg:static top-0 bottom-0 duration-500 shadow-lg lg:shadow-none z-50" @click.stop :class="{ 'start-0' : isSidebarActive, '-start-[290px]' : !isSidebarActive }">
 
             <!-- sidebar header -->
-            <div class="min-h-[80px] w-full flex justify-between items-center text-xl px-5">
-                <RouterLink :to="{name:'dashboard'}" class="decoration-0 text-black inline-block font-medium">
+            <div class="min-h-[80px] ps-9.5 pe-5 lg:ps-0 lg:pe-0 w-full flex justify-between items-center text-xl">
+                <RouterLink :to="{name:'dashboard'}" class="decoration-0 text-black inline-block font-medium w-auto lg:w-full lg:block text-start lg:text-center">
                     Admin Panel
                 </RouterLink>
                 <div class="lg:hidden">
@@ -185,13 +185,16 @@
             <div class="p-2">
 
                 <!-- button logout -->
-                <button type="button" class="cursor-pointer min-h-[63px] max-h-[63px] flex justify-center items-center rounded-lg bg-gray-100 w-full text-sm duration-500 hover:bg-blue-600 text-gray-700 hover:text-white font-medium gap-3" @click="closeSidebar()">
+                <button type="button" class="cursor-pointer min-h-[63px] max-h-[63px] flex justify-center items-center rounded-lg bg-gray-100 w-full text-sm duration-500 hover:bg-blue-600 text-gray-700 hover:text-white font-medium gap-3" v-if="!logoutLoading" @click="closeSidebar();logoutApi()">
                     <span>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4.5 h-4.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M5.636 5.636a9 9 0 1 0 12.728 0M12 3v9" />
                         </svg>
                     </span>
                     Logout
+                </button>
+                <button type="button" class="cursor-pointer min-h-[63px] max-h-[63px] flex justify-center items-center rounded-lg w-full text-sm duration-500 bg-blue-600 font-medium gap-3" v-if="logoutLoading">
+                    <span class="btn-loading-white"></span>
                 </button>
                 <!-- / button logout -->
 
@@ -213,7 +216,7 @@
                         </svg>
                     </button>
                 </div>
-                <div class="flex justify-end items-center gap-2">
+                <div class="flex justify-end items-center gap-5">
                     <button type="button" class="min-w-[45px] max-w-[45px] min-h-[45px] max-h-[45px] inline-flex justify-center items-center bg-gray-100 rounded-full cursor-pointer hover:bg-blue-600 hover:text-white duration-500" @click="sizeControlToggle()">
                         <template v-if="!isSizeControl">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4.5 h-4.5">
@@ -226,36 +229,15 @@
                             </svg>
                         </template>
                     </button>
-                    <div class="relative">
-                        <button type="button" class="min-w-[45px] max-w-[45px] min-h-[45px] max-h-[45px] inline-flex justify-center items-center bg-gray-100 rounded-full cursor-pointer hover:bg-blue-600 hover:text-white duration-500" @click.stop="dropdownToggle()">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4.5 h-4.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                            </svg>
-                        </button>
-                        <div class="absolute top-auto mt-2 end-0 min-w-[150px] overflow-hidden duration-500 border-gray-300 rounded-md" :class="{ 'max-h-0 border-0' : !isDropDownActive, 'max-h-[350px] border' : isDropDownActive }" @click.stop>
-                            <div class="bg-white p-1.5 w-full">
-                                <RouterLink :to="{name:'profile'}" class="cursor-pointer w-full decoration-0 flex justify-start items-center hover:bg-blue-600 hover:text-white py-3 px-4.5 duration-500 rounded-md text-sm font-medium gap-3 mb-0.5" :class="{ 'bg-blue-600 text-white' : $route.name === 'profile', 'bg-transparent text-gray-700' : $route.name !== 'profile' }" @click="dropdownToggle();closeSidebar()">
-                                    <span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4.5 h-4.5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
-                                        </svg>
-                                    </span>
-                                    Profile
-                                </RouterLink>
-                                <button type="button" class="cursor-pointer w-full decoration-0 flex justify-start items-center hover:bg-blue-600 hover:text-white py-3 px-4.5 duration-500 rounded-md text-sm font-medium gap-3 mb-0.5 text-gray-700" v-if="!logoutLoading" @click="closeSidebar();logoutApi()">
-                                    <span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4.5 h-4.5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5.636 5.636a9 9 0 1 0 12.728 0M12 3v9" />
-                                        </svg>
-                                    </span>
-                                    Logout
-                                </button>
-                                <button type="button" class="btn-theme w-full" v-if="logoutLoading">
-                                    <span class="btn-loading-white"></span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    <RouterLink :to="{name:'profile'}" class="font-medium decoration-0 duration-500 inline-flex justify-start items-center">
+                        <span class="inline-flex justify-center items-center min-w-[55px] max-w-[55px] min-h-[55px] max-h-[55px] rounded-full bg-blue-100 text-blue-700">
+                            {{shortName(profileData?.name)}}
+                        </span>
+                        <span class="ms-3">
+                            <span class="block text-gray-700 text-sm"> {{profileData?.name}} </span> <br/>
+                            <span class="block text-xs -mt-6" :class="{ 'text-blue-800' : $route.name === 'profile', 'text-gray-800' : $route.name !== 'profile' }"> {{profileData?.email}} </span>
+                        </span>
+                    </RouterLink>
                 </div>
             </header>
             <!-- / header -->
@@ -287,20 +269,31 @@ export default {
         return {
             // data properties
             isSizeControl: false,
-            isDropDownActive: false,
             logoutLoading: false,
             isSidebarActive: false,
+            profileData: JSON.parse(apiCookies.get('user')) || null,
+            cookieUser: apiCookies.get('user') || null,
+        }
+    },
+    watch: {
+        cookieUser(newVal) {
+            this.profileData = newVal ? JSON.parse(newVal) : null;
         }
     },
     mounted() {
         // data mounted
-        window.addEventListener('click', (event) => this.handleOutSideClickDropdown());
+        this.cookieInterval = setInterval(() => {
+            const currentCookie = apiCookies.get('user');
+            if (currentCookie !== this.cookieUser) {
+                this.cookieUser = currentCookie;
+            }
+        }, 500);
         window.addEventListener('click', (event) => this.handleOutSideClickSidebar());
     },
     beforeUnmount() {
         // data before unmount
-        window.removeEventListener('click', (event) => this.handleOutSideClickDropdown());
         window.removeEventListener('click', (event) => this.handleOutSideClickSidebar());
+        clearInterval(this.cookieInterval);
     },
     methods: {
 
@@ -312,18 +305,6 @@ export default {
             } else {
                 document.exitFullscreen();
                 this.isSizeControl = false;
-            }
-        },
-
-        // dropdown toggle
-        dropdownToggle() {
-            this.isDropDownActive = !this.isDropDownActive;
-        },
-
-        // handle outside click dropdown
-        handleOutSideClickDropdown() {
-            if(this.isDropDownActive) {
-                this.isDropDownActive = false;
             }
         },
 
@@ -344,6 +325,14 @@ export default {
             }
         },
 
+        // short name
+        shortName(name) {
+            if (!name || typeof name !== 'string') return '';
+            let parts = name.trim().split(' ');
+            if (parts.length < 2) return parts[0][0] || '';
+            return parts[0][0] + parts[1][0];
+        },
+
         async logoutApi() {
             try {
                 this.logoutLoading = true;
@@ -351,6 +340,7 @@ export default {
                 apiCookies.remove('access_token', null);
                 apiCookies.remove('role', null);
                 apiCookies.remove('user', null);
+                this.profileData = null;
                 this.$router.push({name:'login'});
             } finally {
                 this.logoutLoading = false;

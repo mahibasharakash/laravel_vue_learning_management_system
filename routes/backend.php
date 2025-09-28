@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\DashboardController,
+    App\Http\Controllers\admin\AuthController,
     App\Http\Controllers\admin\UserController,
     App\Http\Controllers\admin\AnswerController,
     App\Http\Controllers\admin\CommentController,
@@ -16,27 +17,35 @@ use App\Http\Controllers\admin\DashboardController,
     App\Http\Controllers\admin\SettingsController;
 
 Route::prefix('auth')->group(function() {
-    Route::post('/login', [UserController::class, 'login'])->name('LOGIN.API.AUTH');
-    Route::post('/registration', [UserController::class, 'registration'])->name('REGISTRATION.API.AUTH');
-    Route::post('/forgot', [UserController::class, 'forgot'])->name('FORGOT.API.AUTH');
-    Route::post('/reset', [UserController::class, 'reset'])->name('RESET.API.AUTH');
-    Route::post('/verification', [UserController::class, 'verification'])->name('VERIFICATION.API.AUTH');
+    Route::post('/login', [AuthController::class, 'login'])->name('LOGIN.API.AUTH');
+    Route::post('/registration', [AuthController::class, 'registration'])->name('REGISTRATION.API.AUTH');
+    Route::post('/forgot', [AuthController::class, 'forgot'])->name('FORGOT.API.AUTH');
+    Route::post('/reset', [AuthController::class, 'reset'])->name('RESET.API.AUTH');
+    Route::post('/verification', [AuthController::class, 'verification'])->name('VERIFICATION.API.AUTH');
 });
 
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('profile')->group(function() {
-        Route::get('/user-details', [UserController::class, 'details'])->name('USER.DETAILS.API.PROFILE');
-        Route::post('/change-details', [UserController::class, 'changeDetails'])->name('USER.CHANGE.DETAILS.API.PROFILE');
-        Route::post('/change-password', [UserController::class, 'changePassword'])->name('USER.CHANGE.PASSWORD.API.PROFILE');
-        Route::post('/logout', [UserController::class, 'logout'])->name('USER.LOGOUT.API.PROFILE');
-        Route::post('/delete-account', [UserController::class, 'deleteAccount'])->name('USER.DELETE.ACCOUNT.API.PROFILE');
-        Route::post('/upload-image', [UserController::class, 'uploadImage'])->name('USER.UPLOAD.IMAGE.API.PROFILE');
-        Route::post('/remove-image', [UserController::class, 'removeImage'])->name('USER.REMOVE.IMAGE.API.PROFILE');
+        Route::get('/user-details', [AuthController::class, 'details'])->name('USER.DETAILS.API.PROFILE');
+        Route::post('/change-details', [AuthController::class, 'changeDetails'])->name('USER.CHANGE.DETAILS.API.PROFILE');
+        Route::post('/change-password', [AuthController::class, 'changePassword'])->name('USER.CHANGE.PASSWORD.API.PROFILE');
+        Route::post('/logout', [AuthController::class, 'logout'])->name('USER.LOGOUT.API.PROFILE');
+        Route::post('/delete-account', [AuthController::class, 'deleteAccount'])->name('USER.DELETE.ACCOUNT.API.PROFILE');
+        Route::post('/upload-image', [AuthController::class, 'uploadImage'])->name('USER.UPLOAD.IMAGE.API.PROFILE');
+        Route::post('/remove-image', [AuthController::class, 'removeImage'])->name('USER.REMOVE.IMAGE.API.PROFILE');
     });
 
     Route::prefix('dashboard')->group(function() {
         Route::get('/get', [DashboardController::class, 'index'])->name('GET.API.DASHBOARD');
+    });
+
+    Route::prefix('user')->group(function() {
+        Route::get('/list', [UserController::class, 'index'])->name('LIST.API.USER');
+        Route::post('/store', [UserController::class, 'store'])->name('STORE.API.USER');
+        Route::get('/show/{id}', [UserController::class, 'show'])->name('SHOW.API.USER');
+        Route::put('/update/{id}', [UserController::class, 'update'])->name('UPDATE.API.USER');
+        Route::delete('/delete/{id}', [UserController::class, 'destroy'])->name('DELETE.API.USER');
     });
 
     Route::prefix('answer')->group(function() {
