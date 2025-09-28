@@ -401,10 +401,10 @@ export default {
         // open manage modal
         openManageModal(data = null) {
             this.error = {};
+            this.attach_preview = null;
             if(data) {
                 this.showApi(data);
             } else {
-                this.attach_preview = null;
                 this.formData = {
                     image: null,
                     id: '',
@@ -433,18 +433,6 @@ export default {
         // close manage modal
         closeDeleteModal() {
             this.isActiveDeleteModal = false;
-        },
-
-        // list api implementation
-        async listApi() {
-            try {
-                this.listLoading = true;
-                const response = await axios.get(apiRoutes.user.list, {params: this.params}, {headers: apiServices.headerContent});
-                this.tableData = response?.data?.data;
-                this.pagination = response?.data?.pagination;
-            } finally {
-                this.listLoading = false;
-            }
         },
 
         // search data
@@ -497,6 +485,26 @@ export default {
             }
         },
 
+        // short name
+        shortName(name) {
+            if (!name || typeof name !== 'string') return '';
+            let parts = name.trim().split(' ');
+            if (parts.length < 2) return parts[0][0] || '';
+            return parts[0][0] + parts[1][0];
+        },
+
+        // list api implementation
+        async listApi() {
+            try {
+                this.listLoading = true;
+                const response = await axios.get(apiRoutes.user.list, {params: this.params}, {headers: apiServices.headerContent});
+                this.tableData = response?.data?.data;
+                this.pagination = response?.data?.pagination;
+            } finally {
+                this.listLoading = false;
+            }
+        },
+
         // create api implementation
         async createApi() {
             try {
@@ -535,7 +543,8 @@ export default {
                 if (this.formData.image) {
                     formData.append("image", this.formData.image);
                 }
-                await axios.put(apiRoutes.user.update(this.formData.id), formData, { headers: apiServices.mediaHeaderContent });
+                formData.append('_method', 'PUT')
+                await axios.post(apiRoutes.user.update(this.formData.id), formData, { headers: apiServices.mediaHeaderContent });
                 this.formData = { image: null, id: '', name: '', email: '', password: '', password_confirmation: '', role: null };
                 await this.listApi();
                 this.closeManageModal();
@@ -552,7 +561,9 @@ export default {
                 this.showLoading = true;
                 const response = await axios.get(apiRoutes.user.show(data), { headers: apiServices.headerContent });
                 this.formData = response?.data?.user;
-                this.attach_preview = `/storage/${response?.data?.user?.image}`;
+                if(response?.data?.user?.image) {
+                    this.attach_preview = `/storage/${response?.data?.user?.image}`;
+                }
             } finally {
                 this.showLoading = false;
             }
@@ -568,14 +579,6 @@ export default {
             } finally {
                 this.deleteLoading = false;
             }
-        },
-
-        // short name
-        shortName(name) {
-            if (!name || typeof name !== 'string') return '';
-            let parts = name.trim().split(' ');
-            if (parts.length < 2) return parts[0][0] || '';
-            return parts[0][0] + parts[1][0];
         },
 
     }

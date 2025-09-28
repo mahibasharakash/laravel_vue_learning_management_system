@@ -27,6 +27,14 @@ const apiRoutes = {
         delete: (id) => `/user/delete/${id}`,
     },
 
+    course: {
+        list: '/course/list',
+        store: '/course/store',
+        show: (id) => `/course/show/${id}`,
+        update: (id) => `/course/update/${id}`,
+        delete: (id) => `/course/delete/${id}`,
+    },
+
     answer: {
         list: '/answer/list',
         store: '/answer/store',
@@ -41,14 +49,6 @@ const apiRoutes = {
         show: (id) => `/comment/show/${id}`,
         update: (id) => `/comment/update/${id}`,
         delete: (id) => `/comment/delete/${id}`,
-    },
-
-    course: {
-        list: '/course/list',
-        store: '/course/store',
-        show: (id) => `/course/show/${id}`,
-        update: (id) => `/course/update/${id}`,
-        delete: (id) => `/course/delete/${id}`,
     },
 
     enrollment: {

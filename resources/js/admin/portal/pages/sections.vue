@@ -220,6 +220,12 @@
 
 <script>
 
+import axios from "axios";
+
+import apiRoutes from "@/api/apiRoutes.js";
+import apiServices from "@/api/apiServices.js";
+import apiCookies from "@/api/apiCookies.js";
+
 export default {
     data() {
         return {
@@ -233,9 +239,21 @@ export default {
                 id: '',
                 course_id: null, // FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE
                 title: '',
-                sort_order: '',
-                created_at: '',
-                updated_at: '',
+            },
+            tableData: [],
+            params: {
+                page: 1,
+                per_page: 10,
+                search: ''
+            },
+            pagination: {
+                current_page: 1,
+                per_page: 10,
+                total: 0,
+                last_page: 0,
+                from: 1,
+                to: 10,
+                summary: 'Showing 1 to 10 of 30 entries',
             },
         }
     },

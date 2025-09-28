@@ -20,6 +20,12 @@
 
 <script>
 
+import axios from "axios";
+
+import apiRoutes from "@/api/apiRoutes.js";
+import apiServices from "@/api/apiServices.js";
+import apiCookies from "@/api/apiCookies.js";
+
 export default {
     data() {
         return {

@@ -45,7 +45,7 @@ class UserController extends Controller
     {
         try {
             $request->validate([
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'image' => 'nullable|max:2048',
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required|string|min:5|confirmed',
@@ -96,7 +96,7 @@ class UserController extends Controller
                 return response()->json(['message' => 'User not found'], 404);
             }
             $request->validate([
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'image' => 'nullable|max:2048',
                 'name' => 'sometimes|required|string|max:255',
                 'email' => 'sometimes|required|string|email|max:255|unique:users,email,' . $id,
                 'password' => 'nullable|string|min:5|confirmed',
@@ -108,8 +108,8 @@ class UserController extends Controller
                 }
                 $file = $request->file('image');
                 $filename = time() . '.' . $file->getClientOriginalExtension();
-                Storage::disk('public')->put($filename, file_get_contents($file));
-                $user->image = $filename;
+                Storage::disk('public')->put('' . $filename, file_get_contents($file));
+                $user->image = '' . $filename;
             }
             if ($request->filled('name')) {
                 $user->name = $request->name;

@@ -48,6 +48,14 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/delete/{id}', [UserController::class, 'destroy'])->name('DELETE.API.USER');
     });
 
+    Route::prefix('course')->group(function() {
+        Route::get('/list', [CourseController::class, 'index'])->name('LIST.API.COURSE');
+        Route::post('/store', [CourseController::class, 'store'])->name('STORE.API.COURSE');
+        Route::get('/show/{id}', [CourseController::class, 'show'])->name('SHOW.API.COURSE');
+        Route::put('/update/{id}', [CourseController::class, 'update'])->name('UPDATE.API.COURSE');
+        Route::delete('/delete/{id}', [CourseController::class, 'destroy'])->name('DELETE.API.COURSE');
+    });
+
     Route::prefix('answer')->group(function() {
         Route::get('/list', [AnswerController::class, 'index'])->name('LIST.API.ANSWER');
         Route::post('/store', [AnswerController::class, 'store'])->name('STORE.API.ANSWER');
@@ -62,14 +70,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/show/{id}', [CommentController::class, 'show'])->name('SHOW.API.COMMENT');
         Route::put('/update/{id}', [CommentController::class, 'update'])->name('UPDATE.API.COMMENT');
         Route::delete('/delete/{id}', [CommentController::class, 'destroy'])->name('DELETE.API.COMMENT');
-    });
-
-    Route::prefix('course')->group(function() {
-        Route::get('/list', [CourseController::class, 'index'])->name('LIST.API.COURSE');
-        Route::post('/store', [CourseController::class, 'store'])->name('STORE.API.COURSE');
-        Route::get('/show/{id}', [CourseController::class, 'show'])->name('SHOW.API.COURSE');
-        Route::put('/update/{id}', [CourseController::class, 'update'])->name('UPDATE.API.COURSE');
-        Route::delete('/delete/{id}', [CourseController::class, 'destroy'])->name('DELETE.API.COURSE');
     });
 
     Route::prefix('enrollment')->group(function() {

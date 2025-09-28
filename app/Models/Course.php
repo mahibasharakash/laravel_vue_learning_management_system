@@ -2,10 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class Course extends Model
 {
+
+    use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
         'instructor_id',
@@ -17,5 +22,10 @@ class Course extends Model
         'created_at',
         'updated_at',
     ];
+
+    public function instructor(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class, 'instructor_id', 'id');
+    }
 
 }
