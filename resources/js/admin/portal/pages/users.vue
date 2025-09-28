@@ -60,7 +60,7 @@
 
                     <!-- table data body -->
                     <tbody class="w-full">
-                        <tr class="w-full bg-transparent duration-500 hover:bg-gray-200 overflow-hidden" v-for="(each, index) in tableData" :key="index">
+                        <tr class="w-full bg-transparent duration-500 hover:bg-blue-50 overflow-hidden" v-for="(each, index) in tableData" :key="index">
                             <td class="min-w-[250px] max-w-[250px] py-3 px-3.5 text-gray-800 text-start text-sm font-medium rounded-s-md">
                                 <div class="inline-flex justify-start items-center gap-3">
                                     <div v-if="each.image" class="min-w-[35px] max-w-[35px] min-h-[35px] max-h-[35px] rounded-full overflow-hidden">
