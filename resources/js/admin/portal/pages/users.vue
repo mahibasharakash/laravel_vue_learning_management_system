@@ -109,7 +109,7 @@
                     No Data Found
                 </div>
                 <div class="inline-block text-sm text-gray-600">
-                    Click " <span class="text-blue-700">ADD</span> " For New Data
+                    Click " <span class="text-blue-700 cursor-pointer" @click="openManageModal(null)">ADD</span> " For New Data
                 </div>
             </div>
         </template>
