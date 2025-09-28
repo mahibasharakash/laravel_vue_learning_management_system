@@ -1,10 +1,18 @@
 <template>
 
     <!-- breadcrumb -->
-    <div class="w-full bg-white rounded-md px-6 py-3 flex justify-start gap-3 shadow-lg">
-        <a href="javascript:void(0)" class="decoration-0 text-black inline-block font-medium text-md">
+    <div class="w-full bg-white rounded-md px-6 py-3 flex justify-start items-center gap-3 shadow-lg">
+        <RouterLink :to="{name:'dashboard'}" class="decoration-0 text-black inline-block font-medium text-md">
+            Dashboard
+        </RouterLink>
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 mb-0">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+            </svg>
+        </div>
+        <RouterLink :to="{name:'sections'}" class="decoration-0 text-black inline-block font-medium text-md">
             Sections
-        </a>
+        </RouterLink>
     </div>
     <!-- / breadcrumb -->
 
@@ -132,14 +140,6 @@
                         <label for="title" class="form-label"> Title </label>
                         <input id="title" type="text" name="title" v-model="formData.title" class="form-control" autocomplete="off" />
                         <div class="mt-2 w-full block text-red-500 text-xs font-medium" v-if="error?.title"> {{error?.title[0]}} </div>
-                    </div>
-                    <!-- / title -->
-
-                    <!-- title -->
-                    <div class="mb-3 w-full block">
-                        <label for="sort_order" class="form-label"> Sort Order </label>
-                        <input id="sort_order" type="text" name="sort_order" v-model="formData.sort_order" class="form-control" autocomplete="off" />
-                        <div class="mt-2 w-full block text-red-500 text-xs font-medium" v-if="error?.sort_order"> {{error?.sort_order[0]}} </div>
                     </div>
                     <!-- / title -->
 

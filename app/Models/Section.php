@@ -10,9 +10,6 @@ class Section extends Model
     protected $fillable = [
         'course_id',
         'title',
-        'sort_order',
-        'created_at',
-        'updated_at',
     ];
 
 }
