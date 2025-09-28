@@ -83,7 +83,7 @@ class UserController extends Controller
     {
         $user = User::find($id);
         if (!$user) {
-            return response()->json(['message' => 'User not found'], 404);
+            return response()->json(['message' => 'Data not found'], 404);
         }
         return response()->json(['user' => $user], 200);
     }
@@ -93,7 +93,7 @@ class UserController extends Controller
         try {
             $user = User::find($id);
             if (!$user) {
-                return response()->json(['message' => 'User not found'], 404);
+                return response()->json(['message' => 'Data not found'], 404);
             }
             $request->validate([
                 'image' => 'nullable|max:2048',
@@ -142,7 +142,7 @@ class UserController extends Controller
     {
         try {
             $user = User::find($id);
-            if (!$user) { return response()->json(['message' => 'User not found'], 404); }
+            if (!$user) { return response()->json(['message' => 'Data not found'], 404); }
             if ($user->image && Storage::disk('public')->exists($user->image)) {
                 Storage::disk('public')->delete($user->image);
             }

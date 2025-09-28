@@ -87,7 +87,7 @@ class CourseController extends Controller
     {
         $data = Course::with('instructor')->find($id);
         if (!$data) {
-            return response()->json(['message' => 'Course not found'], 404);
+            return response()->json(['message' => 'data not found'], 404);
         }
         return response()->json(['data' => $data], 200);
     }

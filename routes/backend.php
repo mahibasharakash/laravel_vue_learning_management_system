@@ -56,6 +56,14 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/delete/{id}', [CourseController::class, 'destroy'])->name('DELETE.API.COURSE');
     });
 
+    Route::prefix('section')->group(function() {
+        Route::get('/list', [SectionController::class, 'index'])->name('LIST.API.SECTION');
+        Route::post('/store', [SectionController::class, 'store'])->name('STORE.API.SECTION');
+        Route::get('/show/{id}', [SectionController::class, 'show'])->name('SHOW.API.SECTION');
+        Route::put('/update/{id}', [SectionController::class, 'update'])->name('UPDATE.API.SECTION');
+        Route::delete('/delete/{id}', [SectionController::class, 'destroy'])->name('DELETE.API.SECTION');
+    });
+
     Route::prefix('answer')->group(function() {
         Route::get('/list', [AnswerController::class, 'index'])->name('LIST.API.ANSWER');
         Route::post('/store', [AnswerController::class, 'store'])->name('STORE.API.ANSWER');
@@ -118,14 +126,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/show/{id}', [QuizController::class, 'show'])->name('SHOW.API.QUIZ');
         Route::put('/update/{id}', [QuizController::class, 'update'])->name('UPDATE.API.QUIZ');
         Route::delete('/delete/{id}', [QuizController::class, 'destroy'])->name('DELETE.API.QUIZ');
-    });
-
-    Route::prefix('section')->group(function() {
-        Route::get('/list', [SectionController::class, 'index'])->name('LIST.API.SECTION');
-        Route::post('/store', [SectionController::class, 'store'])->name('STORE.API.SECTION');
-        Route::get('/show/{id}', [SectionController::class, 'show'])->name('SHOW.API.SECTION');
-        Route::put('/update/{id}', [SectionController::class, 'update'])->name('UPDATE.API.SECTION');
-        Route::delete('/delete/{id}', [SectionController::class, 'destroy'])->name('DELETE.API.SECTION');
     });
 
     Route::prefix('settings')->group(function() {

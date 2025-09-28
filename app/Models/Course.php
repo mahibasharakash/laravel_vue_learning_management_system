@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -23,7 +24,7 @@ class Course extends Model
         'updated_at',
     ];
 
-    public function instructor(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function instructor(): BelongsTo
     {
         return $this->belongsTo(User::class, 'instructor_id', 'id');
     }

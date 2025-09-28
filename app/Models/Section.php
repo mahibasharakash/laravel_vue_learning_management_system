@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 
 class Section extends Model
@@ -11,5 +12,10 @@ class Section extends Model
         'course_id',
         'title',
     ];
+
+    public function course(): BelongsTo
+    {
+        return $this->belongsTo(Course::class);
+    }
 
 }
