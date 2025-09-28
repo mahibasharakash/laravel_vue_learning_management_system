@@ -25,13 +25,18 @@ class UserController extends Controller
         $perPage = $request->get('per_page', 10);
         $page = $request->get('page', 1);
         $items = $query->orderBy('created_at', 'desc')->paginate($perPage, ['*'], 'page', $page);
+        $from = ($items->currentPage() - 1) * $items->perPage() + 1;
+        $to   = min($items->currentPage() * $items->perPage(), $items->total());
         return response()->json([
             'data' => $items->items(),
             'pagination' => [
                 'current_page' => $items->currentPage(),
                 'per_page' => $items->perPage(),
                 'total' => $items->total(),
-                'last_page' => $items->lastPage()
+                'last_page' => $items->lastPage(),
+                'from' => $from,
+                'to' => $to,
+                'summary' => "Showing {$from} to {$to} of {$items->total()} entries"
             ]
         ]);
     }

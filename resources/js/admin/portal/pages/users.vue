@@ -60,17 +60,25 @@
 
                     <!-- table data body -->
                     <tbody class="w-full">
-                        <tr class="w-full bg-transparent duration-500 hover:bg-gray-200" v-for="(each, index) in tableData" :key="index">
-                            <td class="min-w-[250px] max-w-[250px] py-3 px-3.5 text-gray-600 text-start text-sm font-medium">
-                                {{each.name}}
+                        <tr class="w-full bg-transparent duration-500 hover:bg-gray-200 overflow-hidden" v-for="(each, index) in tableData" :key="index">
+                            <td class="min-w-[250px] max-w-[250px] py-3 px-3.5 text-gray-800 text-start text-sm font-medium rounded-s-md">
+                                <div class="inline-flex justify-start items-center gap-3">
+                                    <div v-if="each.image" class="min-w-[35px] max-w-[35px] min-h-[35px] max-h-[35px] rounded-full overflow-hidden">
+                                        <img :src="`/storage/${each.image}`" class="w-full h-full object-cover bg-cover" :alt="each.image" />
+                                    </div>
+                                    <div v-else class="min-w-[35px] max-w-[35px] uppercase text-xs min-h-[35px] max-h-[35px] rounded-full overflow-hidden bg-blue-600 text-white inline-flex justify-center items-center font-semibold">
+                                        {{shortName(each.name)}}
+                                    </div>
+                                    {{each.name}}
+                                </div>
                             </td>
-                            <td class="min-w-[250px] max-w-[250px] py-3 px-3.5 text-gray-600 text-start text-sm font-medium">
+                            <td class="min-w-[250px] max-w-[250px] py-3 px-3.5 text-gray-800 text-start text-sm font-medium">
                                 {{each.email}}
                             </td>
-                            <td class="min-w-[120px] max-w-[120px] py-3 px-3.5 text-gray-600 text-start text-sm font-medium">
+                            <td class="min-w-[120px] max-w-[120px] py-3 px-3.5 text-gray-800 text-start text-sm font-medium">
                                 {{each.role}}
                             </td>
-                            <td class="min-w-[150px] max-w-[150px] py-3 px-3.5 text-start">
+                            <td class="min-w-[150px] max-w-[150px] py-3 px-3.5 text-start rounded-e-md">
                                 <div class="flex justify-start items-center gap-3">
                                     <button type="button" class="cursor-pointer p-0 m-0 decoration-0 text-gray-700 text-sm font-medium" @click="openManageModal(each.id)">
                                         Edit
@@ -149,7 +157,7 @@
 
             <!-- count -->
             <div class="text-gray-800 font-medium min-h-[40px] max-h-[40px] flex items-center justify-end">
-                Showing {{ tableData.length }} to {{ pagination.total }}
+                {{pagination.summary}}
             </div>
             <!-- / count -->
 
@@ -378,7 +386,10 @@ export default {
                 current_page: 1,
                 per_page: 10,
                 total: 0,
-                last_page: 0
+                last_page: 0,
+                from: 1,
+                to: 10,
+                summary: 'Showing 1 to 10 of 30 entries',
             },
         }
     },
@@ -557,6 +568,14 @@ export default {
             } finally {
                 this.deleteLoading = false;
             }
+        },
+
+        // short name
+        shortName(name) {
+            if (!name || typeof name !== 'string') return '';
+            let parts = name.trim().split(' ');
+            if (parts.length < 2) return parts[0][0] || '';
+            return parts[0][0] + parts[1][0];
         },
 
     }
