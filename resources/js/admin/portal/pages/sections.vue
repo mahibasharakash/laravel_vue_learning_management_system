@@ -92,7 +92,7 @@
         <!-- / table data list -->
 
         <!-- no data found -->
-        <emptyPage message="No Users Available" subMessage="user" @add="openManageModal(null)" v-if="tableData.length === 0 && !listLoading"></emptyPage>
+        <emptyPage message="No Sections Available" subMessage="section" @add="openManageModal(null)" v-if="tableData.length === 0 && !listLoading"></emptyPage>
         <!-- / no data found -->
 
         <!-- loading -->

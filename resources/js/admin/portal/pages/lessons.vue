@@ -31,7 +31,7 @@
         <!-- / search -->
 
         <!-- create -->
-        <button type="button" class="text-sm cursor-pointer duration-500 min-w-[100px] max-w-[100px] min-h-[48px] max-h-[48px] inline-flex justify-center items-center rounded-md outline-0 border-0 bg-blue-500 hover:bg-blue-800 text-white" @click="openManageModal()">
+        <button type="button" class="text-sm cursor-pointer duration-500 min-w-[100px] max-w-[100px] min-h-[48px] max-h-[48px] inline-flex justify-center items-center rounded-md outline-0 border-0 bg-blue-500 hover:bg-blue-800 text-white" @click="openManageModal(null)">
             Create
         </button>
         <!-- / create -->
@@ -98,7 +98,7 @@
         <!-- / table data list -->
 
         <!-- no data found -->
-        <emptyPage message="No Users Available" subMessage="user" @add="openManageModal(null)" v-if="tableData.length === 0 && !listLoading"></emptyPage>
+        <emptyPage message="No Lessons Available" subMessage="lesson" @add="openManageModal(null)" v-if="tableData.length === 0 && !listLoading"></emptyPage>
         <!-- / no data found -->
 
         <!-- loading -->
