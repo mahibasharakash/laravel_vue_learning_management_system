@@ -26,12 +26,12 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                 </svg>
             </div>
-            <input type="search" name="search" class="font-medium text-sm w-full block min-h-[48px] max-h-[48px] rounded-md bg-white outline-0 border-0 px-5 placeholder-black text-black ring-0 focus-within:ring-2 ring-blue-500 duration-500 shadow-lg" placeholder="Search Here" required autocomplete="off" />
+            <input type="search" name="search" v-model="params.search" @input="searchData()" class="font-medium text-sm w-full block min-h-[48px] max-h-[48px] rounded-md bg-white outline-0 border-0 px-5 placeholder-black text-black ring-0 focus-within:ring-2 ring-blue-500 duration-500 shadow-lg" placeholder="Search Here" required autocomplete="off" />
         </div>
         <!-- / search -->
 
         <!-- create -->
-        <button type="button" class="text-sm cursor-pointer duration-500 min-w-[100px] max-w-[100px] min-h-[48px] max-h-[48px] inline-flex justify-center items-center rounded-md outline-0 border-0 bg-blue-500 hover:bg-blue-800 text-white" @click="openManageModal()">
+        <button type="button" class="text-sm cursor-pointer duration-500 min-w-[100px] max-w-[100px] min-h-[48px] max-h-[48px] inline-flex justify-center items-center rounded-md outline-0 border-0 bg-blue-500 hover:bg-blue-800 text-white" @click="openManageModal(null)">
             Create
         </button>
         <!-- / create -->
@@ -41,49 +41,105 @@
 
     <!-- body -->
     <div class="w-full mt-3">
-        <div class="w-full min-h-[calc(100vh-350px)] max-h-[calc(100vh-350px)] rounded-md shadow-lg bg-white">
 
-        </div>
+        <!-- table data list -->
+        <template v-if="tableData.length > 0 && !listLoading">
+            <div class="w-full min-h-[calc(100vh-300px)] max-h-[calc(100vh-300px)] rounded-md shadow-lg bg-white p-2.5 overflow-x-auto">
+                <table class="table table-auto w-full">
+
+                    <!-- table data header -->
+                    <thead class="w-full">
+                    <tr class="w-full">
+                        <th class="min-w-[250px] max-w-[250px] py-3 px-3.5 text-start text-sm font-medium">
+                            Course Title
+                        </th>
+                        <th class="min-w-[250px] max-w-[250px] py-3 px-3.5 text-start text-sm font-medium">
+                            Title
+                        </th>
+                        <th class="min-w-[250px] max-w-[250px] py-3 px-3.5 text-start text-sm font-medium">
+                            Description
+                        </th>
+                        <th class="min-w-[150px] max-w-[150px] py-3 px-3.5 text-start text-sm font-medium">
+                            Action
+                        </th>
+                    </tr>
+                    </thead>
+                    <!-- / table data header -->
+
+                    <!-- table data body -->
+                    <tbody class="w-full">
+                    <tr class="w-full bg-transparent duration-500 hover:bg-blue-50 overflow-hidden" v-for="(each, index) in tableData" :key="index">
+                        <td class="min-w-[250px] max-w-[250px] py-3 px-3.5 text-gray-800 text-start text-sm font-medium">
+                            {{each?.course?.title}}
+                        </td>
+                        <td class="min-w-[120px] max-w-[120px] py-3 px-3.5 text-gray-800 text-start text-sm font-medium">
+                            {{each?.title}}
+                        </td>
+                        <td class="min-w-[250px] max-w-[250px] py-3 px-3.5 text-gray-800 text-start text-sm font-medium">
+                            {{each?.description}}
+                        </td>
+                        <td class="min-w-[150px] max-w-[150px] py-3 px-3.5 text-start rounded-e-md">
+                            <div class="flex justify-start items-center gap-3">
+                                <button type="button" class="cursor-pointer p-0 m-0 decoration-0 text-gray-700 text-sm font-medium" @click="openManageModal(each.id)">
+                                    Edit
+                                </button>
+                                <button type="button" class="cursor-pointer p-0 m-0 decoration-0 text-red-500 text-sm font-medium" @click="openDeleteModal(each.id)">
+                                    Delete
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <!-- / table data body -->
+
+                </table>
+            </div>
+        </template>
+        <!-- / table data list -->
+
+        <!-- no data found -->
+        <emptyPage message="No Users Available" subMessage="user" @add="openManageModal(null)" v-if="tableData.length === 0 && !listLoading"></emptyPage>
+        <!-- / no data found -->
+
+        <!-- loading -->
+        <loadingPage v-if="listLoading"></loadingPage>
+        <!-- / loading -->
+
     </div>
     <!-- / body -->
 
     <!-- pagination & count -->
-    <div class="w-full mt-5">
+    <div class="w-full mt-5" v-if="tableData.length > 0">
         <div class="w-full flex justify-between items-center flex-wrap">
 
             <!-- pagination -->
             <div class="flex justify-start items-center gap-1">
-                <button type="button" class="text-xs font-medium cursor-pointer min-w-[40px] max-w-[40px] min-h-[40px] max-h-[40px] inline-flex justify-center items-center outline-0 border-0 bg-blue-500 hover:bg-blue-800 text-white rounded-full duration-500">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="min-w-3.5 max-w-3.5 min-h-3.5 max-h-3.5">
+
+                <!-- Previous button -->
+                <button type="button" :disabled="pagination.current_page <= 1" @click="goToPage(pagination.current_page - 1)" class="disabled:bg-blue-300 cursor-pointer rounded-full min-w-[35px] max-w-[35px] min-h-[35px] max-h-[35px] text-md inline-flex justify-center items-center bg-blue-400 duration-500 text-white hover:bg-blue-700 disabled:cursor-not-allowed">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-4 h-4">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                     </svg>
                 </button>
-                <button type="button" class="text-xs font-medium cursor-pointer min-w-[40px] max-w-[40px] min-h-[40px] max-h-[40px] inline-flex justify-center items-center outline-0 border-0 bg-blue-500 hover:bg-blue-800 text-white rounded-full duration-500">
-                    1
+
+                <!-- Page buttons -->
+                <button v-for="page in getPageRange()" :key="page" type="button" @click="goToPage(page)" :class="[ 'cursor-pointer rounded-full min-w-[35px] max-w-[35px] min-h-[35px] max-h-[35px] text-md inline-flex justify-center items-center duration-500', page === pagination.current_page ? 'bg-blue-700 text-white' : 'bg-blue-400 text-white hover:bg-blue-700' ]">
+                    {{ page }}
                 </button>
-                <button type="button" class="text-xs font-medium cursor-pointer min-w-[40px] max-w-[40px] min-h-[40px] max-h-[40px] inline-flex justify-center items-center outline-0 border-0 bg-blue-500 hover:bg-blue-800 text-white rounded-full duration-500">
-                    2
-                </button>
-                <button type="button" class="text-xs font-medium cursor-pointer min-w-[40px] max-w-[40px] min-h-[40px] max-h-[40px] inline-flex justify-center items-center outline-0 border-0 bg-blue-500 hover:bg-blue-800 text-white rounded-full duration-500">
-                    3
-                </button>
-                <button type="button" class="text-xs font-medium cursor-pointer min-w-[40px] max-w-[40px] min-h-[40px] max-h-[40px] inline-flex justify-center items-center outline-0 border-0 bg-blue-500 hover:bg-blue-800 text-white rounded-full duration-500">
-                    4
-                </button>
-                <button type="button" class="text-xs font-medium cursor-pointer min-w-[40px] max-w-[40px] min-h-[40px] max-h-[40px] inline-flex justify-center items-center outline-0 border-0 bg-blue-500 hover:bg-blue-800 text-white rounded-full duration-500">
-                    5
-                </button>
-                <button type="button" class="text-xs font-medium cursor-pointer min-w-[40px] max-w-[40px] min-h-[40px] max-h-[40px] inline-flex justify-center items-center outline-0 border-0 bg-blue-500 hover:bg-blue-800 text-white rounded-full duration-500">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="min-w-3.5 max-w-3.5 min-h-3.5 max-h-3.5">
+
+                <!-- Next button -->
+                <button type="button" :disabled="pagination.current_page >= pagination.last_page" @click="goToPage(pagination.current_page + 1)" class="disabled:bg-blue-300 cursor-pointer rounded-full min-w-[35px] max-w-[35px] min-h-[35px] max-h-[35px] text-md inline-flex justify-center items-center bg-blue-400 duration-500 text-white hover:bg-blue-700 disabled:cursor-not-allowed">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-4 h-4">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                     </svg>
                 </button>
+
             </div>
             <!-- / pagination -->
 
             <!-- count -->
             <div class="text-gray-800 font-medium min-h-[40px] max-h-[40px] flex items-center justify-end">
-                Showing 1 to 10 of 30 entries
+                {{pagination.summary}}
             </div>
             <!-- / count -->
 
@@ -122,8 +178,9 @@
                     <div class="mb-3 w-full block">
                         <label for="course_id" class="form-label"> Course </label>
                         <div class="w-full relative">
-                            <select name="course_id" id="course_id" class="form-select" autocomplete="off">
+                            <select name="course_id" id="course_id" class="form-select" v-model="formData.course_id" autocomplete="off">
                                 <option :value="null"> Select Course </option>
+                                <option v-for="(each,index) in courseData" :value="each.id"> {{each.title}} </option>
                             </select>
                             <div class="absolute top-0 bottom-0 end-0 pe-3 flex items-center pointer-events-none">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
@@ -146,7 +203,7 @@
                     <!-- description -->
                     <div class="mb-3 w-full block">
                         <label for="description" class="form-label"> Description </label>
-                        <textarea name="description" id="description" class="form-textarea" cols="30" rows="4" autocomplete="off"></textarea>
+                        <textarea name="description" id="description" v-model="formData.description" class="form-textarea" cols="30" rows="4" autocomplete="off"></textarea>
                         <div class="mt-2 w-full block text-red-500 text-xs font-medium" v-if="error?.description"> {{error?.description[0]}} </div>
                     </div>
                     <!-- / description -->
@@ -230,11 +287,16 @@
 
 import axios from "axios";
 
-import apiRoutes from "@/api/apiRoutes.js";
-import apiServices from "@/api/apiServices.js";
-import apiCookies from "@/api/apiCookies.js";
+import emptyPage from "../../components/empty-page.vue";
+import loadingPage from "../../components/loading-page.vue";
+
+import apiRoutes from "../../../api/apiRoutes.js";
+import apiServices from "../../../api/apiServices.js";
 
 export default {
+    components: {
+        emptyPage, loadingPage
+    },
     data() {
         return {
             // data properties
@@ -242,13 +304,15 @@ export default {
             isActiveDeleteModal: false,
             manageLoading: false,
             deleteLoading: false,
+            listLoading: false,
             error: {},
             formData: {
                 id: '',
-                course_id: '', // FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE
+                course_id: null, // FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE
                 title: '',
                 description: '',
             },
+            courseData: [],
             tableData: [],
             params: {
                 page: 1,
@@ -267,22 +331,35 @@ export default {
         }
     },
     mounted() {
-
+        this.listApi();
     },
     methods: {
 
         // open manage modal
-        openManageModal() {
+        openManageModal(data = null) {
+            this.error = {};
+            if(data) {
+                this.showApi(data)
+            } else {
+                this.formData = {
+                    id: '',
+                    course_id: null,
+                    title: '',
+                    description: '',
+                }
+            }
             this.isActiveManageModal = true;
         },
 
         // close manage modal
         closeManageModal() {
+            this.error = {};
             this.isActiveManageModal = false;
         },
 
         // open manage modal
-        openDeleteModal() {
+        openDeleteModal(data) {
+            this.formData.id = data;
             this.isActiveDeleteModal = true;
         },
 
@@ -291,14 +368,118 @@ export default {
             this.isActiveDeleteModal = false;
         },
 
-        // manage api
-        manageApi() {
-
+        // search data
+        searchData() {
+            clearTimeout(this.searchTimeout);
+            this.searchTimeout = setTimeout(() => {
+                this.params.page = 1;
+                this.listApi();
+            }, 500);
         },
 
-        // delete api
-        deleteApi() {
+        // page change
+        goToPage(page) {
+            if (page >= 1 && page <= this.pagination.last_page) {
+                this.params.page = page;
+                this.listApi();
+            }
+        },
 
+        // Generate max 5-page buttons
+        getPageRange() {
+            const total = this.pagination.last_page || 1;
+            let start = this.pagination.current_page - 2;
+            let end = this.pagination.current_page + 2;
+            if (start < 1) { start = 1; end = Math.min(5, total); }
+            if (end > total) { end = total; start = Math.max(total - 4, 1); }
+            const range = [];
+            for (let i = start; i <= end; i++) { range.push(i); }
+            return range;
+        },
+
+        // manage api
+        manageApi() {
+            if(this.formData.id) {
+                this.updateApi();
+            } else {
+                this.createApi();
+            }
+        },
+
+        // list api implementation
+        async listApi() {
+            try {
+                this.listLoading = true;
+                const response = await axios.get(apiRoutes.quiz.list, {params: this.params}, {headers: apiServices.headerContent});
+                this.courseData = response?.data?.course;
+                this.tableData = response?.data?.data;
+                this.pagination = response?.data?.pagination;
+            } finally {
+                this.listLoading = false;
+            }
+        },
+
+        // create api implementation
+        async createApi() {
+            try {
+                this.manageLoading = true;
+                this.error = {};
+                let formData = new FormData();
+                formData.append('course_id', this.formData.course_id);
+                formData.append('title', this.formData.title);
+                formData.append('description', this.formData.description);
+                await axios.post(apiRoutes.quiz.store, formData, { headers: apiServices.headerContent });
+                this.formData = { id: '', course_id: '', title: '', description: '' };
+                await this.listApi();
+                this.closeManageModal();
+            } catch (e) {
+                this.error = e?.response?.data?.errors;
+            } finally {
+                this.manageLoading = false;
+            }
+        },
+
+        // update api implementation
+        async updateApi() {
+            try {
+                this.manageLoading = true;
+                let formData = new FormData();
+                formData.append('course_id', this.formData.course_id);
+                formData.append('title', this.formData.title);
+                formData.append('description', this.formData.description);
+                formData.append('_method', 'PUT')
+                await axios.post(apiRoutes.quiz.update(this.formData.id), formData, { headers: apiServices.mediaHeaderContent });
+                this.formData = { id: '', course_id: '', title: '', description: '' };
+                await this.listApi();
+                this.closeManageModal();
+            } catch (e) {
+                this.error = e?.response?.data?.errors;
+            } finally {
+                this.manageLoading = false;
+            }
+        },
+
+        // show api implementation
+        async showApi(data) {
+            try {
+                this.showLoading = true;
+                const response = await axios.get(apiRoutes.quiz.show(data), { headers: apiServices.headerContent });
+                this.formData = response?.data?.data;
+            } finally {
+                this.showLoading = false;
+            }
+        },
+
+        // delete api implementation
+        async deleteApi() {
+            try {
+                this.deleteLoading = true;
+                await axios.delete(apiRoutes.quiz.delete(this.formData.id), { headers: apiServices.headerContent });
+                await this.listApi();
+                this.closeDeleteModal();
+            } finally {
+                this.deleteLoading = false;
+            }
         },
 
     }
