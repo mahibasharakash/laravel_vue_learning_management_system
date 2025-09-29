@@ -268,7 +268,7 @@
                         <template v-else> Create </template>
                     </button>
                     <button type="button" class="btn-theme min-w-[105px] max-w-[105px]" v-if="manageLoading">
-                        <span class="inline-block rounded-full w-4 h-4 border-2 border-white border-t-transparent animate-spin"></span>
+                        <span class="btn-loading-white"></span>
                     </button>
                 </div>
                 <!-- / footer -->
@@ -314,7 +314,7 @@
                         Confirm
                     </button>
                     <button type="button" class="btn-danger min-w-[115px] max-w-[115px]" v-if="deleteLoading">
-                        <span class="inline-block rounded-full w-4 h-4 border-2 border-white border-t-transparent animate-spin"></span>
+                        <span class="btn-loading-white"></span>
                     </button>
                 </div>
                 <!-- / footer -->

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('section_id');
             $table->string('title');
-            $table->string('content');
+            $table->longText('description');
             $table->string('video_url');
             $table->string('duration');
             $table->timestamps();

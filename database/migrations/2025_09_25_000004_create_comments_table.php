@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('user_id');
             $table->string('course_id');
             $table->string('lesson_id');
-            $table->string('content');
+            $table->longText('content');
             $table->timestamps();
         });
     }

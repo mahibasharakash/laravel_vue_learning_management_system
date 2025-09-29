@@ -48,14 +48,14 @@ class LessonController extends Controller
             $request->validate([
                 'section_id' => 'required|string|max:255',
                 'title' => 'required|string|max:255',
-                'content' => 'required|string|max:255',
+                'description' => 'required|string',
                 'video_url' => 'required|string|max:255',
                 'duration' => 'required|string|max:255',
             ]);
             $item = Lesson::create([
                 'section_id' => $request->section_id,
                 'title' => $request->title,
-                'content' => $request->content,
+                'description' => $request->description,
                 'video_url' => $request->video_url,
                 'duration' => $request->duration,
             ]);
@@ -92,7 +92,7 @@ class LessonController extends Controller
             $request->validate([
                 'section_id' => 'required|string|max:255',
                 'title' => 'required|string|max:255',
-                'content' => 'required|string|max:255',
+                'description' => 'required|string',
                 'video_url' => 'required|string|max:255',
                 'duration' => 'required|string|max:255',
             ]);
@@ -102,8 +102,8 @@ class LessonController extends Controller
             if ($request->filled('title')) {
                 $data->title = $request->title;
             }
-            if ($request->filled('content')) {
-                $data->content = $request->content;
+            if ($request->filled('description')) {
+                $data->description = $request->description;
             }
             if ($request->filled('video_url')) {
                 $data->video_url = $request->video_url;

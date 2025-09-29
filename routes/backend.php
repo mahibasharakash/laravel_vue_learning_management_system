@@ -64,6 +64,22 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/delete/{id}', [SectionController::class, 'destroy'])->name('DELETE.API.SECTION');
     });
 
+    Route::prefix('lesson')->group(function() {
+        Route::get('/list', [LessonController::class, 'index'])->name('LIST.API.LESSON');
+        Route::post('/store', [LessonController::class, 'store'])->name('STORE.API.LESSON');
+        Route::get('/show/{id}', [LessonController::class, 'show'])->name('SHOW.API.LESSON');
+        Route::put('/update/{id}', [LessonController::class, 'update'])->name('UPDATE.API.LESSON');
+        Route::delete('/delete/{id}', [LessonController::class, 'destroy'])->name('DELETE.API.LESSON');
+    });
+
+    Route::prefix('enrollment')->group(function() {
+        Route::get('/list', [EnrollmentController::class, 'index'])->name('LIST.API.ENROLLMENT');
+        Route::post('/store', [EnrollmentController::class, 'store'])->name('STORE.API.ENROLLMENT');
+        Route::get('/show/{id}', [EnrollmentController::class, 'show'])->name('SHOW.API.ENROLLMENT');
+        Route::put('/update/{id}', [EnrollmentController::class, 'update'])->name('UPDATE.API.ENROLLMENT');
+        Route::delete('/delete/{id}', [EnrollmentController::class, 'destroy'])->name('DELETE.API.ENROLLMENT');
+    });
+
     Route::prefix('answer')->group(function() {
         Route::get('/list', [AnswerController::class, 'index'])->name('LIST.API.ANSWER');
         Route::post('/store', [AnswerController::class, 'store'])->name('STORE.API.ANSWER');
@@ -78,22 +94,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/show/{id}', [CommentController::class, 'show'])->name('SHOW.API.COMMENT');
         Route::put('/update/{id}', [CommentController::class, 'update'])->name('UPDATE.API.COMMENT');
         Route::delete('/delete/{id}', [CommentController::class, 'destroy'])->name('DELETE.API.COMMENT');
-    });
-
-    Route::prefix('enrollment')->group(function() {
-        Route::get('/list', [EnrollmentController::class, 'index'])->name('LIST.API.ENROLLMENT');
-        Route::post('/store', [EnrollmentController::class, 'store'])->name('STORE.API.ENROLLMENT');
-        Route::get('/show/{id}', [EnrollmentController::class, 'show'])->name('SHOW.API.ENROLLMENT');
-        Route::put('/update/{id}', [EnrollmentController::class, 'update'])->name('UPDATE.API.ENROLLMENT');
-        Route::delete('/delete/{id}', [EnrollmentController::class, 'destroy'])->name('DELETE.API.ENROLLMENT');
-    });
-
-    Route::prefix('lesson')->group(function() {
-        Route::get('/list', [LessonController::class, 'index'])->name('LIST.API.LESSON');
-        Route::post('/store', [LessonController::class, 'store'])->name('STORE.API.LESSON');
-        Route::get('/show/{id}', [LessonController::class, 'show'])->name('SHOW.API.LESSON');
-        Route::put('/update/{id}', [LessonController::class, 'update'])->name('UPDATE.API.LESSON');
-        Route::delete('/delete/{id}', [LessonController::class, 'destroy'])->name('DELETE.API.LESSON');
     });
 
     Route::prefix('payment')->group(function() {

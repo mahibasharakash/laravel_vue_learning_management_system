@@ -27,7 +27,7 @@
                         <input id="address" type="text" name="address" class="form-control" autocomplete="off" />
                     </div>
                     <div class="w-full">
-                        <button type="submit" class="btn-theme">
+                        <button type="submit" class="btn-theme min-w-[105px] max-w-[105px]">
                             Update
                         </button>
                     </div>
@@ -57,7 +57,7 @@
                         <input id="password_confirmation" type="password" name="password_confirmation" class="form-control" autocomplete="off" />
                     </div>
                     <div class="w-full block">
-                        <button type="submit" class="btn-theme">
+                        <button type="submit" class="btn-theme min-w-[105px] max-w-[105px]">
                             Update
                         </button>
                     </div>

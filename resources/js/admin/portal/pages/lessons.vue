@@ -200,13 +200,13 @@
                     </div>
                     <!-- / title -->
 
-                    <!-- content -->
+                    <!-- description -->
                     <div class="mb-3 w-full block">
-                        <label for="content" class="form-label"> Content </label>
-                        <textarea name="content" id="content" v-model="formData.content" class="form-textarea" cols="30" rows="4" autocomplete="off"></textarea>
+                        <label for="description" class="form-label"> Description </label>
+                        <textarea name="description" id="description" v-model="formData.description" class="form-textarea" cols="30" rows="4" autocomplete="off"></textarea>
                         <div class="mt-2 w-full block text-red-500 text-xs font-medium" v-if="error?.description"> {{error?.description[0]}} </div>
                     </div>
-                    <!-- / content -->
+                    <!-- / description -->
 
                     <!-- video url -->
                     <div class="mb-3 w-full block">
@@ -237,7 +237,7 @@
                         <template v-else> Create </template>
                     </button>
                     <button type="button" class="btn-theme min-w-[105px] max-w-[105px]" v-if="manageLoading">
-                        <span class="inline-block rounded-full w-4 h-4 border-2 border-white border-t-transparent animate-spin"></span>
+                        <span class="btn-loading-white"></span>
                     </button>
                 </div>
                 <!-- / footer -->
@@ -283,7 +283,7 @@
                         Confirm
                     </button>
                     <button type="button" class="btn-danger min-w-[115px] max-w-[115px]" v-if="deleteLoading">
-                        <span class="inline-block rounded-full w-4 h-4 border-2 border-white border-t-transparent animate-spin"></span>
+                        <span class="btn-loading-white"></span>
                     </button>
                 </div>
                 <!-- / footer -->
@@ -326,7 +326,7 @@ export default {
                 id: '',
                 section_id: null, // FOREIGN KEY (section_id) REFERENCES sections(id) ON DELETE CASCADE
                 title: '',
-                content: '',
+                description: '',
                 video_url: '',
                 duration: '',
             },
@@ -363,7 +363,7 @@ export default {
                     id: '',
                     section_id: null,
                     title: '',
-                    content: '',
+                    description: '',
                     video_url: '',
                     duration: '',
                 }
@@ -447,11 +447,11 @@ export default {
                 let formData = new FormData();
                 formData.append('section_id', this.formData.section_id);
                 formData.append('title', this.formData.title);
-                formData.append('content', this.formData.content);
+                formData.append('description', this.formData.description);
                 formData.append('video_url', this.formData.video_url);
                 formData.append('duration', this.formData.duration);
                 await axios.post(apiRoutes.lesson.store, formData, { headers: apiServices.headerContent });
-                this.formData = { id: '', section_id: '', title: '', content: '', video_url: '', duration: '' };
+                this.formData = { id: '', section_id: '', title: '', description: '', video_url: '', duration: '' };
                 await this.listApi();
                 this.closeManageModal();
             } catch (e) {
@@ -468,12 +468,12 @@ export default {
                 let formData = new FormData();
                 formData.append('section_id', this.formData.section_id);
                 formData.append('title', this.formData.title);
-                formData.append('content', this.formData.content);
+                formData.append('description', this.formData.description);
                 formData.append('video_url', this.formData.video_url);
                 formData.append('duration', this.formData.duration);
                 formData.append('_method', 'PUT')
                 await axios.post(apiRoutes.lesson.update(this.formData.id), formData, { headers: apiServices.mediaHeaderContent });
-                this.formData = { id: '', section_id: '', title: '', content: '', video_url: '', duration: '' };
+                this.formData = { id: '', section_id: '', title: '', description: '', video_url: '', duration: '' };
                 await this.listApi();
                 this.closeManageModal();
             } catch (e) {

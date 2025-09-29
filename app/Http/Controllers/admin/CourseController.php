@@ -50,7 +50,7 @@ class CourseController extends Controller
                 'thumbnail' => 'nullable|max:2048',
                 'instructor_id' => 'required|string|max:255',
                 'title' => 'required|string|max:255',
-                'description' => 'required|string|max:255',
+                'description' => 'required|string',
                 'price' => 'required|string|max:255',
                 'status' => 'required|string|max:255',
             ]);
@@ -103,7 +103,7 @@ class CourseController extends Controller
                 'thumbnail' => 'nullable|max:2048',
                 'instructor_id' => 'required|string|max:255',
                 'title' => 'required|string|max:255',
-                'description' => 'required|string|max:255',
+                'description' => 'required|string',
                 'price' => 'required|string|max:255',
                 'status' => 'required|string|max:255',
             ]);

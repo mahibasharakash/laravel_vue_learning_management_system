@@ -168,15 +168,15 @@
 
                 <!-- footer -->
                 <div class="w-full flex justify-end items-center gap-2">
-                    <button type="button" class="btn-lighter" @click="closeManageModal()">
+                    <button type="button" class="btn-lighter min-w-[105px] max-w-[105px]" @click="closeManageModal()">
                         Cancel
                     </button>
-                    <button type="submit" class="btn-theme" v-if="!manageLoading">
+                    <button type="submit" class="btn-theme min-w-[105px] max-w-[105px]" v-if="!manageLoading">
                         <template v-if="formData.id"> Update </template>
                         <template v-else> Create </template>
                     </button>
-                    <button type="button" class="btn-theme" v-if="manageLoading">
-                        <span class="inline-block rounded-full w-4 h-4 border-2 border-white border-t-transparent animate-spin"></span>
+                    <button type="button" class="btn-theme min-w-[105px] max-w-[105px]" v-if="manageLoading">
+                        <span class="btn-loading-white"></span>
                     </button>
                 </div>
                 <!-- / footer -->
@@ -222,7 +222,7 @@
                         Confirm
                     </button>
                     <button type="button" class="min-w-[110px] max-w-[110px] font-medium cursor-pointer bg-red-500 duration-500 hover:bg-red-700 text-white px-8 text-xs rounded-md min-h-[45px] max-h-[45px] inline-flex justify-center items-center" v-if="deleteLoading">
-                        <span class="inline-block rounded-full w-4 h-4 border-2 border-white border-t-transparent animate-spin"></span>
+                        <span class="btn-loading-white"></span>
                     </button>
                 </div>
                 <!-- / footer -->

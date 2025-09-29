@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('instructor_id');
             $table->string('title');
-            $table->string('description');
+            $table->longText('description');
             $table->string('thumbnail');
             $table->string('price');
             $table->string('status');
