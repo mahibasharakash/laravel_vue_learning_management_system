@@ -20,6 +20,9 @@ class LessonController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%");
+                $q->whereHas('section', function ($userQuery) use ($search) {
+                    $userQuery->where('title', 'like', "%{$search}%");
+                });
             });
         }
         $perPage = $request->get('per_page', 10);

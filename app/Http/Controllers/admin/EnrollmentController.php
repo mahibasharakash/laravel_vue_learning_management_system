@@ -21,7 +21,11 @@ class EnrollmentController extends Controller
         if ($request->has('search') && !empty($request->search)) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
-                $q->where('title', 'like', "%{$search}%");
+                $q->whereHas('user', function ($userQuery) use ($search) {
+                    $userQuery->where('name', 'like', "%{$search}%");
+                })->orWhereHas('course', function ($courseQuery) use ($search) {
+                    $courseQuery->where('title', 'like', "%{$search}%");
+                });
             });
         }
         $perPage = $request->get('per_page', 10);
